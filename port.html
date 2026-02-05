@@ -1,0 +1,594 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santhosh M | Cybersecurity Analyst</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="matrix-theme">
+    <!-- ===== LOADING SCREEN ===== -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader-content">
+            <div class="logo-wrapper">
+                <span class="logo-text">THEJETTER-S</span>
+            </div>
+            <div class="progress-line-wrapper">
+                <div class="progress-line"></div>
+            </div>
+            <div class="loading-tag">SYSTEM_INITIALIZING</div>
+        </div>
+    </div>
+
+    <!-- Matrix Rain Background -->
+    <div class="matrix-rain" id="matrixRain"></div>
+
+    <!-- ===== RING PARTICLE ANIMATION SYSTEM ===== -->
+    <!-- Canvas for Houdini PaintWorklet Ring Particles -->
+    <canvas class="ring-particle-canvas" id="ringParticleCanvas" aria-hidden="true"></canvas>
+
+    <!-- Fallback container for browsers without PaintWorklet support -->
+    <div class="ring-fallback-container" id="ringFallbackContainer" aria-hidden="true"></div>
+
+    <!-- Vector Field Canvas for Perlin Noise Flow -->
+    <canvas class="vector-field-canvas" id="vectorFieldCanvas" aria-hidden="true"></canvas>
+
+    <!-- Cursor Spotlight Effect Layer -->
+    <div class="cursor-spotlight" id="cursorSpotlight" aria-hidden="true"></div>
+
+    <!-- Scroll-Driven Transform Layer for Perspective Effects -->
+    <div class="scroll-transform-layer" id="scrollTransformLayer" aria-hidden="true">
+        <div class="depth-element"></div>
+    </div>
+
+    <!-- Header with Navigation -->
+    <header>
+        <nav class="nav-container">
+            <a href="#home" class="logo">SANTHOSH_M</a>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <div class="nav-links" id="navLinks">
+                <a href="#home" class="nav-link active">HOME</a>
+                <a href="#projects" class="nav-link">PROJECTS</a>
+                <a href="#skills" class="nav-link">SKILLS</a>
+                <a href="#certifications" class="nav-link">CERTIFICATIONS</a>
+                <a href="#experience" class="nav-link">EXPERIENCE</a>
+                <a href="#about" class="nav-link">ABOUT</a>
+                <a href="#contact" class="nav-link">CONTACT</a>
+            </div>
+
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-palette"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <!-- Parallax Background Layers -->
+        <div class="parallax-container">
+            <div class="parallax-layer parallax-layer-1"></div>
+            <div class="parallax-layer parallax-layer-2"></div>
+            <div class="parallax-layer parallax-layer-3"></div>
+        </div>
+
+
+
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span>S</span><span>A</span><span>N</span><span>T</span><span>H</span><span>O</span><span>S</span><span>H</span>
+                <span>M</span>
+            </h1>
+
+            <div class="hacker-terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot green"></div>
+                    </div>
+                    <div class="terminal-title">root@cyberdev:~</div>
+                </div>
+
+                <div class="terminal-content">
+                    <div class="terminal-line">
+                        <span class="prompt">$</span> <span class="command">whoami</span>
+                        <div class="output">> Cybersecurity Analyst | CEH v13 Certified</div>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="prompt">$</span> <span class="command">pwd</span>
+                        <div class="output">> /home/santhosh/portfolio</div>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="prompt">$</span> <span class="command">skills --list</span>
+                        <div class="output">> Penetration Testing | OWASP | Security Tools | Python</div>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="prompt">$</span> <span class="command">status --online</span>
+                        <div class="output">> Available for security audits & VAPT</div>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="prompt">$</span> <span class="command typing-text">connect --secure
+                            --protocol=https</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="hero-subtitle">
+                <span class="typing-text">Vulnerability Assessment & Ethical Hacking </span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2 class="section-title">Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-card-inner">
+                    <div class="project-badge"><i class="fas fa-lock"></i></div>
+                    <div class="project-id">PROJECT-001</div>
+                    <h3 class="project-name">Secure Cloud File Sharing</h3>
+                    <p class="project-desc">Developed a web browser plug-in that encrypts files using AES-256 before sharing to cloud services. Even if the cloud gets breached, files remain protected by robust encryption.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">AES-256</span>
+                        <span class="tech-tag">Browser Extension</span>
+                        <span class="tech-tag">Cloud Sync</span>
+                        <span class="tech-tag">Encryption</span>
+                    </div>
+                    <a href="https://github.com/TheJetter-S" class="project-link" target="_blank"><i class="fas fa-code"></i> View Source</a>
+                    <div class="project-data-flow">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="cert-particles">
+                        <span style="--tx: 30px; --ty: -40px;"></span>
+                        <span style="--tx: -25px; --ty: -35px;"></span>
+                        <span style="--tx: 40px; --ty: -20px;"></span>
+                        <span style="--tx: -30px; --ty: -45px;"></span>
+                        <span style="--tx: 20px; --ty: -30px;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-inner">
+                    <div class="project-badge"><i class="fas fa-search"></i></div>
+                    <div class="project-id">PROJECT-002</div>
+                    <h3 class="project-name">Information Gathering - Maltego</h3>
+                    <p class="project-desc">Used Maltego to collect and analyze public information of websites and networking blueprints. Created visual maps to understand data flow for security analysis.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Maltego</span>
+                        <span class="tech-tag">OSINT</span>
+                        <span class="tech-tag">Network Analysis</span>
+                        <span class="tech-tag">Reconnaissance</span>
+                    </div>
+                    <a href="https://github.com/TheJetter-S" class="project-link" target="_blank"><i class="fas fa-file-alt"></i> View Report</a>
+                    <div class="project-data-flow">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="cert-particles">
+                        <span style="--tx: 30px; --ty: -40px;"></span>
+                        <span style="--tx: -25px; --ty: -35px;"></span>
+                        <span style="--tx: 40px; --ty: -20px;"></span>
+                        <span style="--tx: -30px; --ty: -45px;"></span>
+                        <span style="--tx: 20px; --ty: -30px;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-inner">
+                    <div class="project-badge"><i class="fas fa-shield-alt"></i></div>
+                    <div class="project-id">PROJECT-003</div>
+                    <h3 class="project-name">Vulnerability Assessment Lab</h3>
+                    <p class="project-desc">Conducted vulnerability assessments in test environments using Nmap, Metasploit, and Burp Suite, identifying and documenting security flaws.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Nmap</span>
+                        <span class="tech-tag">Metasploit</span>
+                        <span class="tech-tag">Burp Suite</span>
+                        <span class="tech-tag">VAPT</span>
+                    </div>
+                    <a href="https://github.com/TheJetter-S" class="project-link" target="_blank"><i class="fas fa-eye"></i> View Details</a>
+                    <div class="project-data-flow">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="cert-particles">
+                        <span style="--tx: 30px; --ty: -40px;"></span>
+                        <span style="--tx: -25px; --ty: -35px;"></span>
+                        <span style="--tx: 40px; --ty: -20px;"></span>
+                        <span style="--tx: -30px; --ty: -45px;"></span>
+                        <span style="--tx: 20px; --ty: -30px;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-inner">
+                    <div class="project-badge"><i class="fas fa-globe"></i></div>
+                    <div class="project-id">PROJECT-004</div>
+                    <h3 class="project-name">Web Security Testing</h3>
+                    <p class="project-desc">Practiced ethical hacking techniques including penetration testing and SQL injection; recommended mitigation strategies in line with OWASP Top 10 best practices.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">OWASP Top 10</span>
+                        <span class="tech-tag">SQL Injection</span>
+                        <span class="tech-tag">Pen Testing</span>
+                        <span class="tech-tag">Python</span>
+                    </div>
+                    <a href="https://github.com/TheJetter-S" class="project-link" target="_blank"><i class="fas fa-chart-line"></i> View Dashboard</a>
+                    <div class="project-data-flow">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="cert-particles">
+                        <span style="--tx: 30px; --ty: -40px;"></span>
+                        <span style="--tx: -25px; --ty: -35px;"></span>
+                        <span style="--tx: 40px; --ty: -20px;"></span>
+                        <span style="--tx: -30px; --ty: -45px;"></span>
+                        <span style="--tx: 20px; --ty: -30px;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <h2 class="section-title"><span class="cyber-slash">//</span> SKILLS MATRIX</h2>
+        <div class="skills-showcase-container">
+            <!-- Card 1: Offensive Security -->
+            <div class="skill-category-card">
+                <div class="skill-rings">
+                    <div class="ring ring-1"></div>
+                    <div class="ring ring-2"></div>
+                </div>
+                <!-- Content -->
+                <div class="card-content-wrapper">
+                    <div class="card-header">
+                        <div class="header-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Offensive Security</h3>
+                    </div>
+                    <ul class="skill-list-items">
+                        <li><i class="fas fa-chevron-right"></i> Web Application VAPT</li>
+                        <li><i class="fas fa-chevron-right"></i> Network Infrastructure Testing</li>
+                        <li><i class="fas fa-chevron-right"></i> Manual Exploitation & PoCs</li>
+                        <li><i class="fas fa-chevron-right"></i> LLM & GenAI Security Testing</li>
+                        <li><i class="fas fa-chevron-right"></i> Cloud Security Assessments</li>
+                        <li><i class="fas fa-chevron-right"></i> API Security Testing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card 2: Technical Ops -->
+            <div class="skill-category-card">
+                <div class="skill-rings">
+                    <div class="ring ring-1"></div>
+                    <div class="ring ring-2"></div>
+                </div>
+                <!-- Content -->
+                <div class="card-content-wrapper">
+                    <div class="card-header">
+                        <div class="header-icon"><i class="fas fa-code"></i></div>
+                        <h3>Technical Ops</h3>
+                    </div>
+                    <ul class="skill-list-items">
+                        <li><i class="fas fa-chevron-right"></i> Secure Code Review & Auditing</li>
+                        <li><i class="fas fa-chevron-right"></i> AI-Driven Threat Detection</li>
+                        <li><i class="fas fa-chevron-right"></i> SOC & SIEM Monitoring</li>
+                        <li><i class="fas fa-chevron-right"></i> Threat Modeling & Analysis</li>
+                        <li><i class="fas fa-chevron-right"></i> Python Security Automation</li>
+                        <li><i class="fas fa-chevron-right"></i> Vulnerability Management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card 3: Deployment Tools -->
+            <div class="skill-category-card">
+                <div class="skill-rings">
+                    <div class="ring ring-1"></div>
+                    <div class="ring ring-2"></div>
+                </div>
+                <!-- Content -->
+                <div class="card-content-wrapper">
+                    <div class="card-header">
+                        <div class="header-icon"><i class="fas fa-screwdriver-wrench"></i></div>
+                        <h3>Deployment Tools</h3>
+                    </div>
+                    <div class="tools-grid-layout">
+                        <div class="tool-item">
+                            <i class="fas fa-bug"></i>
+                            <span>Burp Pro</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-bullseye"></i>
+                            <span>Nessus</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-layer-group"></i>
+                            <span>Metasploit</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-terminal"></i>
+                            <span>BeEF</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-users"></i>
+                            <span>Active Dir</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-robot"></i>
+                            <span>PentestGPT</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-dragon"></i>
+                            <span>Kali</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-network-wired"></i>
+                            <span>Wireshark</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-unlock"></i>
+                            <span>Hashcat</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-bolt"></i>
+                            <span>ZAP</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-globe"></i>
+                            <span>Nmap</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-mask"></i>
+                            <span>Hydra</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-cube"></i>
+                            <span>Splunk</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-shield-cat"></i>
+                            <span>Wazuh</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-filter"></i>
+                            <span>Snort</span>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-satellite-dish"></i>
+                            <span>AlienVault</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications">
+        <h2 class="section-title">Certifications</h2>
+        <div class="certifications">
+            <!-- CEH V13 Certificate -->
+            <div class="cert-card">
+                <div class="cert-card-inner">
+                    <div class="cert-badge">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <div class="cert-content">
+                        <h3 class="cert-name">Certified Ethical Hacker (CEH V13)</h3>
+                        <p class="cert-issuer">
+                            <i class="fas fa-building"></i>
+                            EC-Council
+                        </p>
+                        <p class="cert-date">
+                            <i class="fas fa-terminal"></i>
+                            <span>Hands-on skills in Network scanning and exploitation 2025</span>
+                        </p>
+                    </div>
+                    <div class="cert-verified">Verified</div>
+                    <div class="cert-data-flow">
+                        <span></span><span></span><span></span>
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="cert-particles">
+                        <span style="--tx: 30px; --ty: -40px;"></span>
+                        <span style="--tx: -25px; --ty: -35px;"></span>
+                        <span style="--tx: 40px; --ty: -20px;"></span>
+                        <span style="--tx: -30px; --ty: -45px;"></span>
+                        <span style="--tx: 20px; --ty: -30px;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CAPIE Certificate -->
+            <div class="cert-card">
+                <div class="cert-card-inner">
+                    <div class="cert-badge">
+                        <i class="fas fa-spider"></i>
+                    </div>
+                    <div class="cert-content">
+                        <h3 class="cert-name">Certified API Hacking Expert (CAPIE)</h3>
+                        <p class="cert-issuer">
+                            <i class="fas fa-building"></i>
+                            RAT SEC CERTS
+                        </p>
+                        <p class="cert-date">
+                            <i class="fas fa-code"></i>
+                            <span>Advanced API Penetration Testing, Injection Attacks, BOLA, Mass Assignment â€¢ 2025</span>
+                        </p>
+                    </div>
+                    <div class="cert-verified">Verified</div>
+                    <div class="cert-data-flow">
+                        <span></span><span></span><span></span>
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="cert-particles">
+                        <span style="--tx: 20px; --ty: -40px;"></span>
+                        <span style="--tx: -20px; --ty: -30px;"></span>
+                        <span style="--tx: 30px; --ty: -20px;"></span>
+                        <span style="--tx: -30px; --ty: -50px;"></span>
+                        <span style="--tx: 10px; --ty: -30px;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OSCP Certificate (Pending) -->
+            <div class="cert-card icon-locked">
+                <div class="cert-card-inner" style="border-style: dashed; border-color: var(--text-muted); opacity: 0.8;">
+                    <div class="cert-badge" style="background: var(--bg-tertiary); color: var(--text-muted);">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="cert-content">
+                        <h3 class="cert-name" style="color: var(--text-muted);">OSCP</h3>
+                        <p class="cert-issuer" style="color: var(--text-muted);">
+                            <i class="fas fa-building"></i>
+                            OffSec
+                        </p>
+                        <p class="cert-date" style="color: var(--text-muted);">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span>Future Goal Pending</span>
+                        </p>
+                    </div>
+                    <div class="cert-verified" style="background: rgba(255, 255, 255, 0.1); color: var(--text-muted); border: 1px solid var(--text-muted);">LOCKED</div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <h2 class="section-title">Experience</h2>
+        <div class="experience-timeline">
+            <div class="timeline-line"></div>
+            
+            <div class="timeline-card">
+                <div class="timeline-dot"></div>
+                <div class="timeline-header">
+                    <div>
+                        <div class="role-title">Cybersecurity Analyst | Purple Team</div>
+                        <div class="company-name">
+                            <i class="fas fa-building"></i> CyberVault, Coimbatore
+                        </div>
+                    </div>
+                    <div class="work-date"><i class="far fa-clock"></i> Currently Working</div>
+                </div>
+                <div class="job-details">
+                    <ul>
+                        <li>Delivering cybersecurity awareness lectures covering key security concepts and best practices.</li>
+                        <li>Learning and applying VAPT (Vulnerability Assessment and Penetration Testing) fundamentals in practical scenarios.</li>
+                        <li>Gaining hands-on experience with industry-standard security tools and methodologies.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div class="about-text-wrapper">
+                <div class="about-text-inner">
+                    <div class="about-profile-badge"><i class="fas fa-user-shield"></i></div>
+                    <div class="about-text">
+                        <p>A B.Tech graduate in Computer Science and Business Systems, I am passionate about securing digital ecosystems and continuously expanding my technical skill set. I am committed to helping organizations strengthen their security posture through proactive assessment, ethical hacking practices, and a problem-solving mindset</p>
+
+                        <p>I am an analytical cybersecurity professional with expertise in offensive security and vulnerability assessment. As a Certified Ethical Hacker (CEH v13), I have hands-on experience in web application security, network analysis, and penetration testing. I specialize in identifying security gaps and recommending remediation aligned with OWASP Top 10 and industry best practices.</p>
+
+                        <p>I have hands-on experience with Nmap, Metasploit, Burp Suite, Wireshark, and TCPdump for vulnerability assessments and attack simulation. As an IT Trainee at CyberVault, I support cybersecurity awareness and develop skills in VAPT and risk assessment. My internship at TechnoHacks Edutech strengthened my ability to analyze threats and recommend mitigation measures.</p>
+                    </div>
+                    <div class="about-data-flow">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block-wrapper">
+                <div class="code-block">
+                    <div class="code-block-content">
+                        <div class="code-line"><span class="keyword">const</span> <span class="variable">securityAnalyst</span> = {</div>
+                        <div class="code-line">&nbsp;&nbsp;<span class="property">name</span>: <span class="string">"Santhosh M"</span>,</div>
+                        <div class="code-line">&nbsp;&nbsp;<span class="property">role</span>: <span class="string">"Cybersecurity Analyst"</span>,</div>
+                        <div class="code-line">&nbsp;&nbsp;<span class="property">specialties</span>: [</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"Vulnerability Assessment"</span>,</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"Penetration Testing"</span>,</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"Network Security"</span>,</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"Web App Security"</span></div>
+                        <div class="code-line">&nbsp;&nbsp;],</div>
+                        <div class="code-line">&nbsp;&nbsp;<span class="property">certifications</span>: [<span class="string">"CEH V13"</span>, <span class="string">"CAPIE"</span>, <span class="string">"OSCP (Future)"</span>],</div>
+                        <div class="code-line">&nbsp;&nbsp;<span class="property">alwaysLearning</span>: <span class="keyword">true</span></div>
+                        <div class="code-line">};</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Contact</h2>
+        <form class="contact-form">
+            <div class="form-group">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-input" placeholder="Enter your name" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" placeholder="your@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Subject</label>
+                <input type="text" class="form-input" placeholder="Project inquiry / Security audit" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Message</label>
+                <textarea class="form-textarea" placeholder="Encrypted message..." required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-paper-plane"></i> SEND SECURE MESSAGE
+            </button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">SANTHOSH_M</div>
+
+            <div class="social-links">
+                <a href="https://github.com/TheJetter-S" class="social-link" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/santhoshmanivasagan/" class="social-link" target="_blank"><i
+                        class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.com/users/1358841241206526066" class="social-link" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="mailto:santhoshm1417@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
+            </div>
+
+            <div class="copyright">
+                © 2025 SANTHOSH_M. All systems secure. <br>
+                Cybersecurity Analyst | CEH V13 Certified
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
