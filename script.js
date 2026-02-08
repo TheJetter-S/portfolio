@@ -387,7 +387,7 @@
             // Initialize typewriter
             const typingText = document.querySelector('.typing-text');
             if (typingText) {
-                const text = "Penetration Testing & Secure Web Development Specialist";
+                const text = "Penetration Testing & Vulnerability Assessment";
                 typeWriter(typingText, text, 70);
             }
 
