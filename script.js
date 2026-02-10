@@ -295,42 +295,72 @@
                 const originalText = submitBtn.innerHTML;
 
                 // Get form values
-                const inputs = this.querySelectorAll('.form-input');
-                // Ensure inputs exist before accessing them
-                if (inputs.length < 3) return;
+                const formData = new FormData(this);
+                const name = formData.get('name');
+                const email = formData.get('email');
+                const subject = formData.get('subject');
+                const message = formData.get('message');
                 
-                const name = inputs[0].value;
-                const email = inputs[1].value;
-                const subject = inputs[2].value;
-                const messageInput = this.querySelector('.form-textarea');
-                const message = messageInput ? messageInput.value : '';
+                // Validate inputs
+                if (!name || !email || !subject || !message) return;
 
                 // Show loading state
                 submitBtn.innerHTML = '<i class="fas fa-lock"></i> ENCRYPTING...';
                 submitBtn.disabled = true;
 
-                // Simulate encryption/transmission
+                // Prepare data for FormSubmit
+                const payload = {
+                    name: name,
+                    email: email,
+                    _subject: subject,
+                    message: message,
+                    _captcha: "false", // Disable captcha validation
+                    _template: "table" // Format email as a table
+                };
+
+                // Simulate encryption/transmission delay for effect
                 setTimeout(() => {
-                    // Construct detailed body for the email
-                    const emailBody = `Name: ${name}\r\nEmail: ${email}\r\n\r\nMessage:\r\n${message}`;
-                    const targetEmail = "santhoshm1417@gmail.com";
-                    const mailtoLink = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-
-                    submitBtn.innerHTML = '<i class="fas fa-check"></i> REDIRECTING...';
-                    submitBtn.style.background = '#00ff41';
-                    submitBtn.style.color = '#000';
-                    
-                    // Open mail client
-                    window.location.href = mailtoLink;
-
-                    // Reset form
-                    setTimeout(() => {
-                        this.reset();
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                        submitBtn.style.background = '';
-                        submitBtn.style.color = '';
-                    }, 2000);
+                    fetch("https://formsubmit.co/ajax/santhoshm1417@gmail.com", {
+                        method: "POST",
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success === "false" || data.success === false) {
+                            throw new Error('Submission failed');
+                        }
+                        
+                        // Success state
+                        submitBtn.innerHTML = '<i class="fas fa-check"></i> SENT SECURELY';
+                        submitBtn.style.background = '#00ff41';
+                        submitBtn.style.color = '#000';
+                        
+                        // Reset form
+                        setTimeout(() => {
+                            this.reset();
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                            submitBtn.style.background = '';
+                            submitBtn.style.color = '';
+                        }, 3000);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Fallback to mailto if AJAX fails
+                        const emailBody = `Name: ${name}\r\nEmail: ${email}\r\n\r\nMessage:\r\n${message}`;
+                        const mailtoLink = `mailto:santhoshm1417@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+                        
+                        submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ERROR - OPENING MAIL CLIENT';
+                        setTimeout(() => {
+                            window.location.href = mailtoLink;
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                        }, 2000);
+                    });
                 }, 1500);
             });
         }
