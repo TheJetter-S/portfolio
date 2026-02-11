@@ -1344,11 +1344,27 @@ if (contactForm) {
                 console.log('[Cursor] Skill card tracking enabled');
             }
             
-            // Track cursor for about section wrappers
-            const aboutWrappers = document.querySelectorAll('.about-text-wrapper, .code-block-wrapper');
-            if (aboutWrappers.length > 0) {
-                trackCursor(aboutWrappers);
-                console.log('[Cursor] About section tracking enabled');
+            // ===== DOSSIER INTEL TABS =====
+            const intelTabs = document.querySelectorAll('.intel-tab');
+            const intelContents = document.querySelectorAll('.intel-content');
+            if (intelTabs.length > 0 && intelContents.length > 0) {
+                intelTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const targetTab = tab.getAttribute('data-tab');
+                        
+                        // Deactivate all tabs and contents
+                        intelTabs.forEach(t => t.classList.remove('active'));
+                        intelContents.forEach(c => c.classList.remove('active'));
+                        
+                        // Activate clicked tab and matching content
+                        tab.classList.add('active');
+                        const targetContent = document.getElementById('tab-' + targetTab);
+                        if (targetContent) {
+                            targetContent.classList.add('active');
+                        }
+                    });
+                });
+                console.log('[Dossier] Intel tabs initialized');
             }
             }
         })();
