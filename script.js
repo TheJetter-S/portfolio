@@ -282,88 +282,66 @@
 
             type();
         }
+// ===== CONTACT FORM — Web3Forms Integration =====
+const contactForm = document.getElementById('contactForm');
 
+if (contactForm) {
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const submitBtnText = submitBtn.querySelector('span');
+    const submitBtnIcon = submitBtn.querySelector('i');
 
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-        // Form Submission
-        const contactForm = document.querySelector('.contact-form');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function (e) {
-                e.preventDefault();
+        const formData = new FormData(contactForm);
 
-                const submitBtn = this.querySelector('.submit-btn');
-                const originalText = submitBtn.innerHTML;
+        const originalText = submitBtnText.textContent;
+        submitBtnText.textContent = "TRANSMITTING...";
+        submitBtnIcon.className = "fas fa-spinner fa-spin";
+        submitBtn.disabled = true;
 
-                // Get form values
-                const formData = new FormData(this);
-                const name = formData.get('name');
-                const email = formData.get('email');
-                const subject = formData.get('subject');
-                const message = formData.get('message');
-                
-                // Validate inputs
-                if (!name || !email || !subject || !message) return;
-
-                // Show loading state
-                submitBtn.innerHTML = '<i class="fas fa-lock"></i> ENCRYPTING...';
-                submitBtn.disabled = true;
-
-                // Prepare data for FormSubmit
-                const payload = {
-                    name: name,
-                    email: email,
-                    _subject: subject,
-                    message: message,
-                    _captcha: "false", // Disable captcha validation
-                    _template: "table" // Format email as a table
-                };
-
-                // Simulate encryption/transmission delay for effect
-                setTimeout(() => {
-                    fetch("https://formsubmit.co/ajax/santhoshm1417@gmail.com", {
-                        method: "POST",
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify(payload)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success === "false" || data.success === false) {
-                            throw new Error('Submission failed');
-                        }
-                        
-                        // Success state
-                        submitBtn.innerHTML = '<i class="fas fa-check"></i> SENT SECURELY';
-                        submitBtn.style.background = '#00ff41';
-                        submitBtn.style.color = '#000';
-                        
-                        // Reset form
-                        setTimeout(() => {
-                            this.reset();
-                            submitBtn.innerHTML = originalText;
-                            submitBtn.disabled = false;
-                            submitBtn.style.background = '';
-                            submitBtn.style.color = '';
-                        }, 3000);
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        // Fallback to mailto if AJAX fails
-                        const emailBody = `Name: ${name}\r\nEmail: ${email}\r\n\r\nMessage:\r\n${message}`;
-                        const mailtoLink = `mailto:santhoshm1417@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-                        
-                        submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ERROR - OPENING MAIL CLIENT';
-                        setTimeout(() => {
-                            window.location.href = mailtoLink;
-                            submitBtn.innerHTML = originalText;
-                            submitBtn.disabled = false;
-                        }, 2000);
-                    });
-                }, 1500);
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
             });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                submitBtnText.textContent = "SENT SUCCESSFULLY";
+                submitBtnIcon.className = "fas fa-check-circle";
+                submitBtn.style.background = "rgba(0, 255, 65, 0.2)";
+                submitBtn.style.borderColor = "#00ff41";
+                submitBtn.style.color = "#00ff41";
+                contactForm.reset();
+            } else {
+                submitBtnText.textContent = "FAILED — TRY AGAIN";
+                submitBtnIcon.className = "fas fa-exclamation-triangle";
+                submitBtn.style.background = "rgba(255, 50, 50, 0.2)";
+                submitBtn.style.borderColor = "#ff3232";
+                submitBtn.style.color = "#ff3232";
+            }
+
+        } catch (error) {
+            submitBtnText.textContent = "FAILED — TRY AGAIN";
+            submitBtnIcon.className = "fas fa-exclamation-triangle";
+            submitBtn.style.background = "rgba(255, 50, 50, 0.2)";
+            submitBtn.style.borderColor = "#ff3232";
+            submitBtn.style.color = "#ff3232";
+        } finally {
+            setTimeout(() => {
+                submitBtnText.textContent = originalText;
+                submitBtnIcon.className = "fas fa-paper-plane";
+                submitBtn.style.background = "";
+                submitBtn.style.borderColor = "";
+                submitBtn.style.color = "";
+                submitBtn.disabled = false;
+            }, 3000);
         }
+    });
+}
+
 
         // Initialize effects
         document.addEventListener('DOMContentLoaded', () => {
