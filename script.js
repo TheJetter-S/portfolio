@@ -1445,5 +1445,55 @@ class HoudiniPaintWorkletManager {
             });
             console.log('[Dossier] Intel tabs initialized');
         }
+
+        // ===== HERO ROLE TYPING ANIMATION =====
+        const heroRoleEl = document.getElementById('heroRoleText');
+        if (heroRoleEl) {
+            const roles = [
+                'Red Team Operator',
+                'Penetration Tester',
+                'Security Researcher',
+                'Bug Bounty Hunter',
+                'SOC Analyst',
+                'Digital Forensic Analyst'
+            ];
+            let roleIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typingSpeed = 80;
+
+            function typeRole() {
+                const currentRole = roles[roleIndex];
+
+                if (!isDeleting) {
+                    heroRoleEl.textContent = currentRole.substring(0, charIndex + 1);
+                    charIndex++;
+
+                    if (charIndex === currentRole.length) {
+                        isDeleting = true;
+                        typingSpeed = 2000; // Pause before deleting
+                    } else {
+                        typingSpeed = 60 + Math.random() * 60; // Random human-like speed
+                    }
+                } else {
+                    heroRoleEl.textContent = currentRole.substring(0, charIndex - 1);
+                    charIndex--;
+
+                    if (charIndex === 0) {
+                        isDeleting = false;
+                        roleIndex = (roleIndex + 1) % roles.length;
+                        typingSpeed = 400; // Pause before typing next
+                    } else {
+                        typingSpeed = 30; // Fast delete
+                    }
+                }
+
+                setTimeout(typeRole, typingSpeed);
+            }
+
+            // Start typing after initial delay
+            setTimeout(typeRole, 1500);
+            console.log('[Hero] Role typing animation initialized');
+        }
     }
 })();

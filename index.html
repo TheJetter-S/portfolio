@@ -90,40 +90,120 @@
             <div class="parallax-layer parallax-layer-3"></div>
         </div>
 
+        <!-- Animated Cyber Grid Overlay -->
+        <div class="hero-grid-overlay" aria-hidden="true"></div>
+
+        <!-- Floating Particle Dots -->
+        <div class="hero-particles" aria-hidden="true">
+            <div class="hero-particle p1"></div>
+            <div class="hero-particle p2"></div>
+            <div class="hero-particle p3"></div>
+            <div class="hero-particle p4"></div>
+            <div class="hero-particle p5"></div>
+            <div class="hero-particle p6"></div>
+            <div class="hero-particle p7"></div>
+            <div class="hero-particle p8"></div>
+        </div>
+
+        <!-- Floating Hex Decorations -->
+        <div class="hero-float-elements" aria-hidden="true">
+            <div class="hero-float-hex hex-1"></div>
+            <div class="hero-float-hex hex-2"></div>
+            <div class="hero-float-hex hex-3"></div>
+            <div class="hero-float-hex hex-4"></div>
+            <div class="hero-float-hex hex-5"></div>
+        </div>
+
+        <!-- Decorative Corner Brackets -->
+        <div class="hero-corner-decor corner-tl" aria-hidden="true"></div>
+        <div class="hero-corner-decor corner-tr" aria-hidden="true"></div>
+        <div class="hero-corner-decor corner-bl" aria-hidden="true"></div>
+        <div class="hero-corner-decor corner-br" aria-hidden="true"></div>
+
+        <!-- Radial Glow Orbs -->
+        <div class="hero-glow-orb orb-1" aria-hidden="true"></div>
+        <div class="hero-glow-orb orb-2" aria-hidden="true"></div>
+        <div class="hero-glow-orb orb-3" aria-hidden="true"></div>
+
         <div class="hero-content">
             <!-- Left: Text Content -->
             <div class="hero-text">
+                <!-- Status Bar -->
+                <div class="hero-status-bar">
+                    <span class="hero-status-dot"></span>
+                    <span class="hero-status-text">SYSTEM ONLINE</span>
+                    <span class="hero-status-sep">|</span>
+                    <span class="hero-status-role"><i class="fas fa-shield-halved"></i> THREAT HUNTER</span>
+                </div>
+
                 <p class="hero-greeting">Hi, I'm</p>
-                <h1 class="hero-title">
-                    <span>S</span><span>A</span><span>N</span><span>T</span><span>H</span><span>O</span><span>S</span><span>H</span>
-                    <span class="hero-title-accent">M</span>
+                <h1 class="hero-title" data-text="SANTHOSH M">
+                    <span class="hero-title-line">
+                        <span>S</span><span>A</span><span>N</span><span>T</span><span>H</span><span>O</span><span>S</span><span>H</span>
+                    </span>
+                    <span class="hero-title-line">
+                        <span class="hero-title-accent"></span>
+                    </span>
                 </h1>
-                <h2 class="hero-role">Cybersecurity Analyst</h2>
+
+                <!-- Animated Role Tag -->
+                <div class="hero-role-wrapper">
+                    <span class="hero-role-slash">//</span>
+                    <h2 class="hero-role" id="heroRoleText">CYBERSECURITY ANALYST</h2>
+                    <span class="hero-role-cursor">_</span>
+                </div>
+
                 <p class="hero-desc">I secure digital ecosystems through vulnerability assessment, penetration testing,
                     and ethical hacking. Turning security gaps into fortified defenses is what I do best.</p>
 
+                <!-- Enhanced CTA Buttons -->
                 <div class="hero-buttons">
                     <a href="#projects" class="hero-btn hero-btn-primary">
-                        View My Work <i class="fas fa-arrow-right"></i>
+                        <span class="hero-btn-glow"></span>
+                        <span class="hero-btn-sweep"></span>
+                        <span class="hero-btn-text">View My Work</span>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
                     <a href="#contact" class="hero-btn hero-btn-outline">
-                        Contact Me
+                        <span class="hero-btn-sweep"></span>
+                        <span class="hero-btn-text">Contact Me</span>
+                        <i class="fas fa-paper-plane"></i>
                     </a>
                 </div>
 
+                <!-- Enhanced Social Links -->
                 <div class="hero-socials">
-                    <a href="https://github.com/TheJetter-S" target="_blank" aria-label="GitHub"><i
-                            class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/santhoshmanivasagan/" target="_blank" aria-label="LinkedIn"><i
-                            class="fab fa-linkedin-in"></i></a>
-                    <a href="https://discord.com/users/1358841241206526066" target="_blank" aria-label="Discord"><i
-                            class="fab fa-discord"></i></a>
+                    <a href="https://github.com/TheJetter-S" target="_blank" aria-label="GitHub" data-tooltip="GitHub">
+                        <div class="social-icon-ring">
+                            <span class="social-ring-pulse"></span>
+                            <i class="fab fa-github"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.linkedin.com/in/santhoshmanivasagan/" target="_blank" aria-label="LinkedIn"
+                        data-tooltip="LinkedIn">
+                        <div class="social-icon-ring">
+                            <span class="social-ring-pulse"></span>
+                            <i class="fab fa-linkedin-in"></i>
+                        </div>
+                    </a>
+                    <a href="https://discord.com/users/1358841241206526066" target="_blank" aria-label="Discord"
+                        data-tooltip="Discord">
+                        <div class="social-icon-ring">
+                            <span class="social-ring-pulse"></span>
+                            <i class="fab fa-discord"></i>
+                        </div>
+                    </a>
                 </div>
             </div>
 
-            <!-- Right: Terminal -->
+            <!-- Right: Enhanced Terminal -->
             <div class="hero-terminal-wrap">
+                <!-- Animated border wrapper -->
+                <div class="terminal-border-glow"></div>
                 <div class="hacker-terminal">
+                    <!-- Terminal Scan Line -->
+                    <div class="terminal-scan-line"></div>
+                    <!-- Terminal Header -->
                     <div class="terminal-header">
                         <div class="terminal-dots">
                             <div class="dot red"></div>
@@ -131,6 +211,10 @@
                             <div class="dot green"></div>
                         </div>
                         <div class="terminal-title">root@cyberdev:~</div>
+                        <div class="terminal-activity">
+                            <span class="terminal-indicator"><i class="fas fa-microchip"></i> CPU</span>
+                            <span class="terminal-indicator"><i class="fas fa-memory"></i> MEM</span>
+                        </div>
                     </div>
 
                     <div class="terminal-content">
@@ -156,6 +240,18 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="hero-scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span class="scroll-text">SCROLL DOWN</span>
+            <div class="scroll-chevrons">
+                <i class="fas fa-chevron-down scroll-chev"></i>
+                <i class="fas fa-chevron-down scroll-chev"></i>
             </div>
         </div>
     </section>
