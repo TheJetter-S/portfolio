@@ -6977,171 +6977,378 @@ body:not([data-theme="light"])::-webkit-scrollbar-thumb:hover {
 }
 
 /* ============================================
-   CERTIFICATIONS SECTION
+   CERTIFICATIONS SECTION — PREMIUM REDESIGN
    ============================================ */
 #certifications {
   padding: 100px 40px;
 }
 
+.cert-section-subtitle {
+  text-align: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.05rem;
+  color: var(--text-muted, #888);
+  max-width: 600px;
+  margin: -20px auto 50px;
+  letter-spacing: 0.5px;
+}
+
 .certifications {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 32px;
+  gap: 36px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* — Cert Card — */
+/* ── Cert Card Shell ── */
 .cert-card {
   position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
-    box-shadow 0.4s ease;
+  border-radius: 18px;
+  overflow: visible;
+  animation: certCardEntrance 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation-delay: var(--card-delay, 0s);
 }
 
-.cert-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow:
-    0 20px 60px rgba(var(--card-accent-rgb), 0.25),
-    0 0 30px rgba(var(--card-accent-rgb), 0.1);
-}
-
-.cert-card-inner {
-  position: relative;
-  background: var(--bg-card, rgba(15, 15, 15, 0.8));
-  border: 1px solid rgba(var(--card-accent-rgb), 0.2);
-  border-radius: 16px;
-  overflow: hidden;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-/* — Badge Visual Banner — */
-.cert-badge-visual {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 36px 20px 24px;
-  background: linear-gradient(145deg,
-      rgba(var(--card-accent-rgb), 0.08) 0%,
-      rgba(var(--card-accent-rgb), 0.03) 50%,
-      transparent 100%);
-  overflow: hidden;
-}
-
-.cert-badge-glow {
-  position: absolute;
-  top: -40%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle,
-      rgba(var(--card-accent-rgb), 0.25) 0%,
-      transparent 70%);
-  border-radius: 50%;
-  filter: blur(40px);
-  pointer-events: none;
-  animation: certBadgePulse 4s ease-in-out infinite alternate;
-}
-
-@keyframes certBadgePulse {
+@keyframes certCardEntrance {
   0% {
-    opacity: 0.5;
-    transform: translateX(-50%) scale(0.9);
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
   }
 
   100% {
     opacity: 1;
-    transform: translateX(-50%) scale(1.15);
+    transform: translateY(0) scale(1);
   }
 }
 
-.cert-badge-pattern {
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(0deg,
-      transparent,
-      transparent 30px,
-      rgba(var(--card-accent-rgb), 0.03) 30px,
-      rgba(var(--card-accent-rgb), 0.03) 31px);
-  pointer-events: none;
+.cert-card:hover {
+  z-index: 2;
 }
 
-/* — Cert Logo Image — */
-.cert-badge-icon {
+.cert-card-inner {
   position: relative;
-  z-index: 2;
-  width: 100px;
-  height: 100px;
+  background: linear-gradient(170deg,
+      rgba(var(--card-accent-rgb), 0.06) 0%,
+      var(--bg-card, rgba(15, 15, 15, 0.85)) 30%,
+      var(--bg-card, rgba(15, 15, 15, 0.85)) 100%);
+  border: 1px solid rgba(var(--card-accent-rgb), 0.15);
+  border-radius: 18px;
+  overflow: hidden;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition:
+    transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.5s ease,
+    border-color 0.4s ease;
+}
+
+.cert-card:hover .cert-card-inner {
+  transform: translateY(-10px);
+  border-color: rgba(var(--card-accent-rgb), 0.4);
+  box-shadow:
+    0 24px 80px rgba(var(--card-accent-rgb), 0.2),
+    0 0 40px rgba(var(--card-accent-rgb), 0.08),
+    inset 0 1px 0 rgba(var(--card-accent-rgb), 0.15);
+}
+
+/* ── Animated Border Chasing Effect ── */
+.cert-card-border-anim {
+  position: absolute;
+  inset: -1px;
+  border-radius: 18px;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.cert-card-border-anim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 1.5px;
+  background: conic-gradient(from 0deg,
+      transparent 0%,
+      rgba(var(--card-accent-rgb), 0.8) 10%,
+      transparent 20%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: borderChase 3s linear infinite;
+}
+
+.cert-card:hover .cert-card-border-anim {
+  opacity: 1;
+}
+
+@keyframes borderChase {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Holographic Scan Line ── */
+.cert-card-scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(var(--card-accent-rgb), 0.5) 30%,
+      rgba(var(--card-accent-rgb), 0.9) 50%,
+      rgba(var(--card-accent-rgb), 0.5) 70%,
+      transparent 100%);
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  animation: scanDown 4s ease-in-out infinite;
+  animation-delay: var(--card-delay, 0s);
+  box-shadow: 0 0 15px rgba(var(--card-accent-rgb), 0.4);
+}
+
+.cert-card:hover .cert-card-scan-line {
+  opacity: 1;
+}
+
+@keyframes scanDown {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    top: calc(100% - 2px);
+    opacity: 0;
+  }
+}
+
+/* ── Badge Area (Top Half) ── */
+.cert-badge-area {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 24px;
+  background: linear-gradient(180deg,
+      rgba(var(--card-accent-rgb), 0.08) 0%,
+      transparent 100%);
+}
+
+.cert-badge-glow {
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle,
+      rgba(var(--card-accent-rgb), 0.2) 0%,
+      transparent 65%);
+  border-radius: 50%;
+  filter: blur(50px);
+  pointer-events: none;
+  animation: badgeGlowPulse 5s ease-in-out infinite alternate;
+}
+
+@keyframes badgeGlowPulse {
+  0% {
+    opacity: 0.4;
+    transform: translateX(-50%) scale(0.85);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.2);
+  }
+}
+
+/* ── Hexagonal Container with Orbit Ring ── */
+.cert-hex-container {
+  position: relative;
+  width: 140px;
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background: rgba(var(--card-accent-rgb), 0.06);
-  border: 2px solid rgba(var(--card-accent-rgb), 0.25);
-  box-shadow:
-    0 0 20px rgba(var(--card-accent-rgb), 0.15),
-    inset 0 0 12px rgba(var(--card-accent-rgb), 0.05);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-.cert-card:hover .cert-badge-icon {
-  transform: scale(1.1) rotate(3deg);
+.cert-orbit-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cert-orbit-ring .orbit-track {
+  fill: none;
+  stroke: rgba(var(--card-accent-rgb), 0.12);
+  stroke-width: 1.5;
+}
+
+.cert-orbit-ring .orbit-beam {
+  fill: none;
+  stroke: var(--card-accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 60 392;
+  animation: orbitSpin 3s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(var(--card-accent-rgb), 0.6));
+}
+
+.cert-orbit-ring .orbit-beam--slow {
+  animation-duration: 6s;
+  stroke-dasharray: 30 422;
+  opacity: 0.5;
+}
+
+@keyframes orbitSpin {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: -452;
+  }
+}
+
+/* ── Hexagonal Badge ── */
+.cert-hex-badge {
+  width: 100px;
+  height: 100px;
+  background: rgba(var(--card-accent-rgb), 0.06);
+  border: 2px solid rgba(var(--card-accent-rgb), 0.25);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1),
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
   box-shadow:
-    0 0 30px rgba(var(--card-accent-rgb), 0.35),
-    0 0 60px rgba(var(--card-accent-rgb), 0.15),
-    inset 0 0 16px rgba(var(--card-accent-rgb), 0.08);
+    0 0 20px rgba(var(--card-accent-rgb), 0.1),
+    inset 0 0 20px rgba(var(--card-accent-rgb), 0.04);
+}
+
+.cert-card:hover .cert-hex-badge {
+  transform: scale(1.08) rotate(3deg);
+  border-color: rgba(var(--card-accent-rgb), 0.5);
+  box-shadow:
+    0 0 40px rgba(var(--card-accent-rgb), 0.3),
+    0 0 80px rgba(var(--card-accent-rgb), 0.1),
+    inset 0 0 20px rgba(var(--card-accent-rgb), 0.08);
 }
 
 .cert-logo-img {
-  width: 70px;
-  height: 70px;
+  width: 68px;
+  height: 68px;
   object-fit: contain;
-  border-radius: 50%;
-  filter: drop-shadow(0 0 8px rgba(var(--card-accent-rgb), 0.4));
+  border-radius: 14px;
+  filter: drop-shadow(0 0 10px rgba(var(--card-accent-rgb), 0.4));
   transition: filter 0.4s ease, transform 0.4s ease;
 }
 
 .cert-card:hover .cert-logo-img {
-  filter: drop-shadow(0 0 16px rgba(var(--card-accent-rgb), 0.6));
-  transform: scale(1.05);
+  filter: drop-shadow(0 0 20px rgba(var(--card-accent-rgb), 0.7)) brightness(1.1);
+  transform: scale(1.06);
 }
 
 .cert-badge-label {
-  margin-top: 12px;
+  margin-top: 14px;
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   color: var(--card-accent);
-  text-shadow: 0 0 12px rgba(var(--card-accent-rgb), 0.4);
+  text-shadow: 0 0 16px rgba(var(--card-accent-rgb), 0.5);
   position: relative;
   z-index: 2;
 }
 
-/* — Cert Body Content — */
+.cert-badge-year {
+  margin-top: 4px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(var(--card-accent-rgb), 0.5);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ── Lock Overlay for Pending Cert ── */
+.cert-lock-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(var(--card-accent-rgb), 0.7);
+  font-size: 1.5rem;
+  border-radius: 18px;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.cert-card--locked:hover .cert-lock-overlay {
+  opacity: 0;
+}
+
+.cert-hex-badge--locked {
+  border-color: rgba(var(--card-accent-rgb), 0.12);
+}
+
+.cert-logo-img--locked {
+  opacity: 0.4;
+  filter: grayscale(0.6) drop-shadow(0 0 4px rgba(var(--card-accent-rgb), 0.15));
+}
+
+.cert-card--locked:hover .cert-logo-img--locked {
+  opacity: 0.85;
+  filter: grayscale(0) drop-shadow(0 0 16px rgba(var(--card-accent-rgb), 0.5));
+}
+
+.cert-badge-area--locked .cert-badge-glow {
+  opacity: 0.25;
+  animation-duration: 8s;
+}
+
+/* ── Cert Body Content ── */
 .cert-body {
-  padding: 24px;
+  padding: 24px 26px 28px;
 }
 
 .cert-card-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .cert-name {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 700;
   color: var(--text-primary);
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
 .cert-status {
@@ -7149,13 +7356,15 @@ body:not([data-theme="light"])::-webkit-scrollbar-thumb:hover {
   align-items: center;
   gap: 6px;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--card-accent);
   white-space: nowrap;
-  padding: 3px 10px;
+  padding: 4px 12px;
   border: 1px solid rgba(var(--card-accent-rgb), 0.3);
   border-radius: 20px;
   background: rgba(var(--card-accent-rgb), 0.08);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .cert-status-pulse {
@@ -7174,7 +7383,7 @@ body:not([data-theme="light"])::-webkit-scrollbar-thumb:hover {
 }
 
 .cert-status--pending i {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   animation: pendingRotate 3s ease-in-out infinite;
 }
 
@@ -7190,11 +7399,18 @@ body:not([data-theme="light"])::-webkit-scrollbar-thumb:hover {
   }
 }
 
+/* ── Meta Row (Issuer + ID Badge) ── */
+.cert-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
 .cert-issuer {
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.82rem;
   color: var(--text-muted, #888);
-  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -7202,307 +7418,549 @@ body:not([data-theme="light"])::-webkit-scrollbar-thumb:hover {
 
 .cert-issuer i {
   color: rgba(var(--card-accent-rgb), 0.6);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.cert-id-badge {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  color: rgba(var(--card-accent-rgb), 0.8);
+  background: rgba(var(--card-accent-rgb), 0.06);
+  border: 1px solid rgba(var(--card-accent-rgb), 0.15);
+  padding: 2px 10px;
+  border-radius: 4px;
+  letter-spacing: 1.5px;
 }
 
 .cert-desc {
   font-family: 'Rajdhani', sans-serif;
   font-size: 0.92rem;
   color: var(--text-secondary, #bbb);
-  line-height: 1.5;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* ── Skill Tags ── */
+.cert-skill-tags {
   display: flex;
-  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
-.cert-desc i {
-  color: rgba(var(--card-accent-rgb), 0.5);
-  margin-top: 3px;
-  font-size: 0.8rem;
+.cert-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: rgba(var(--card-accent-rgb), 0.8);
+  background: rgba(var(--card-accent-rgb), 0.06);
+  border: 1px solid rgba(var(--card-accent-rgb), 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  transition: background 0.3s ease, border-color 0.3s ease,
+    box-shadow 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
-/* — Cert Grid Lines Decoration — */
-.cert-grid-lines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(90deg, rgba(var(--card-accent-rgb), 0.03) 1px, transparent 1px),
-    linear-gradient(rgba(var(--card-accent-rgb), 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  opacity: 0;
-  transition: opacity 0.5s ease;
+.cert-tag:hover {
+  background: rgba(var(--card-accent-rgb), 0.15);
+  border-color: rgba(var(--card-accent-rgb), 0.4);
+  color: var(--card-accent);
+  box-shadow: 0 0 12px rgba(var(--card-accent-rgb), 0.2);
+  transform: translateY(-2px);
 }
 
-.cert-card:hover .cert-grid-lines {
-  opacity: 1;
-}
-
-/* — OSCP Locked / Pending State — */
-.cert-card--locked .cert-card-inner {
-  border-color: rgba(var(--card-accent-rgb), 0.12);
-}
-
-.cert-badge-visual--locked {
-  background: linear-gradient(145deg,
-      rgba(var(--card-accent-rgb), 0.04) 0%,
-      transparent 100%);
-}
-
-.cert-badge-visual--locked .cert-badge-glow {
-  opacity: 0.3;
-  animation: certBadgePulse 6s ease-in-out infinite alternate;
-}
-
-.cert-logo-img--locked {
-  opacity: 0.5;
-  filter: grayscale(0.5) drop-shadow(0 0 6px rgba(var(--card-accent-rgb), 0.2));
-}
-
-.cert-card--locked:hover .cert-logo-img--locked {
-  opacity: 0.75;
-  filter: grayscale(0.2) drop-shadow(0 0 12px rgba(var(--card-accent-rgb), 0.4));
-}
 
 /* ============================================
-   EXPERIENCE / TIMELINE SECTION
+   EXPERIENCE / TIMELINE SECTION — PREMIUM
    ============================================ */
 #experience {
   padding: 100px 40px;
 }
 
+.exp-section-subtitle {
+  text-align: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.05rem;
+  color: var(--text-muted, #888);
+  max-width: 500px;
+  margin: -20px auto 50px;
+  letter-spacing: 0.5px;
+}
+
 .experience-timeline {
   position: relative;
-  max-width: 800px;
+  max-width: 860px;
   margin: 0 auto;
-  padding-left: 40px;
+  padding-left: 50px;
 }
 
+/* ── Glowing Timeline Line ── */
 .timeline-line {
   position: absolute;
-  left: 10px;
+  left: 15px;
   top: 0;
   bottom: 0;
-  width: 2px;
+  width: 3px;
   background: linear-gradient(to bottom,
       transparent,
-      var(--matrix-green, #00ff41) 20%,
-      var(--matrix-green, #00ff41) 80%,
+      var(--matrix-green, #00ff41) 15%,
+      var(--matrix-green, #00ff41) 85%,
       transparent);
-  box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+  box-shadow:
+    0 0 10px rgba(0, 255, 65, 0.4),
+    0 0 20px rgba(0, 255, 65, 0.15);
+  border-radius: 3px;
 }
 
+/* ── Timeline Dot with Expanding Ring ── */
 .timeline-dot {
   position: absolute;
-  left: -34px;
-  top: 20px;
-  width: 14px;
-  height: 14px;
+  left: -42px;
+  top: 30px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--matrix-green, #00ff41);
   border: 3px solid var(--bg-primary, #0a0a0a);
   box-shadow:
-    0 0 10px rgba(0, 255, 65, 0.5),
-    0 0 20px rgba(0, 255, 65, 0.2);
+    0 0 12px rgba(0, 255, 65, 0.6),
+    0 0 24px rgba(0, 255, 65, 0.2);
   z-index: 2;
 }
 
-.timeline-card {
-  position: relative;
-  background: var(--bg-card, rgba(15, 15, 15, 0.8));
-  border: 1px solid rgba(0, 255, 65, 0.15);
-  border-radius: 14px;
-  padding: 28px 30px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+.timeline-dot-ring {
+  position: absolute;
+  inset: -6px;
+  border: 2px solid rgba(0, 255, 65, 0.3);
+  border-radius: 50%;
+  animation: dotRingExpand 2.5s ease-out infinite;
 }
 
-.timeline-card:hover {
-  transform: translateY(-4px);
+@keyframes dotRingExpand {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* ── Timeline Card ── */
+.timeline-card {
+  position: relative;
+}
+
+.timeline-card-inner {
+  position: relative;
+  background: linear-gradient(170deg,
+      rgba(0, 255, 65, 0.04) 0%,
+      var(--bg-card, rgba(15, 15, 15, 0.85)) 25%,
+      var(--bg-card, rgba(15, 15, 15, 0.85)) 100%);
+  border: 1px solid rgba(0, 255, 65, 0.15);
+  border-radius: 18px;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.4s ease;
+}
+
+.timeline-card:hover .timeline-card-inner {
+  transform: translateY(-6px);
   box-shadow:
-    0 16px 48px rgba(0, 255, 65, 0.12),
-    0 0 20px rgba(0, 255, 65, 0.06);
+    0 24px 80px rgba(0, 255, 65, 0.12),
+    0 0 30px rgba(0, 255, 65, 0.06);
   border-color: rgba(0, 255, 65, 0.3);
 }
 
-.timeline-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 18px;
+/* ── Experience Scan Line ── */
+.timeline-scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(0, 255, 65, 0.4) 30%,
+      rgba(0, 255, 65, 0.8) 50%,
+      rgba(0, 255, 65, 0.4) 70%,
+      transparent 100%);
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  animation: scanDown 5s ease-in-out infinite;
+  box-shadow: 0 0 12px rgba(0, 255, 65, 0.3);
 }
 
-.role-title {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text-primary);
+.timeline-card:hover .timeline-scan-line {
+  opacity: 1;
 }
 
-/* — Company Name with Logo — */
-.company-name {
+/* ── Card Glow ── */
+.timeline-card-glow {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(0, 255, 65, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* ── Company Banner ── */
+.exp-company-banner {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.92rem;
-  color: var(--matrix-green, #00ff41);
-  margin-top: 6px;
+  gap: 18px;
+  padding: 24px 28px;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.08);
+}
+
+.exp-logo-ring {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .company-logo-img {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
-  border-radius: 6px;
-  border: 1px solid rgba(0, 255, 65, 0.2);
-  background: rgba(0, 255, 65, 0.05);
-  padding: 3px;
-  box-shadow: 0 0 8px rgba(0, 255, 65, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 10px;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.4s ease, filter 0.4s ease;
 }
 
 .timeline-card:hover .company-logo-img {
   transform: scale(1.1);
-  box-shadow:
-    0 0 14px rgba(0, 255, 65, 0.3),
-    0 0 28px rgba(0, 255, 65, 0.1);
+  filter: drop-shadow(0 0 12px rgba(0, 255, 65, 0.4));
 }
 
-.work-date {
+.exp-logo-orbit {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.exp-logo-orbit circle {
+  fill: none;
+  stroke: rgba(0, 255, 65, 0.2);
+  stroke-width: 2;
+  stroke-dasharray: 16 210;
+  stroke-linecap: round;
+  animation: orbitSpin 4s linear infinite;
+  filter: drop-shadow(0 0 4px rgba(0, 255, 65, 0.3));
+}
+
+.exp-company-info {
+  flex: 1;
+}
+
+.exp-company-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 1.5px;
+}
+
+.exp-company-loc {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--text-muted, #888);
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.exp-company-loc i {
+  color: rgba(0, 255, 65, 0.5);
+  font-size: 0.7rem;
+}
+
+.exp-date-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--matrix-green, #00ff41);
+  padding: 6px 14px;
+  border: 1px solid rgba(0, 255, 65, 0.2);
+  border-radius: 20px;
+  background: rgba(0, 255, 65, 0.05);
+  white-space: nowrap;
+}
+
+.exp-date-badge i {
+  font-size: 0.7rem;
+}
+
+.exp-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--matrix-green, #00ff41);
+  box-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+/* ── Role Title Bar ── */
+.exp-role-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  background: rgba(var(--card-accent-rgb, 0, 255, 65), 0.03);
+  border-bottom: 1px solid rgba(0, 255, 65, 0.06);
+}
+
+.exp-role-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.exp-role-title i {
+  color: var(--matrix-green, #00ff41);
+  font-size: 1rem;
+}
+
+.exp-team-badge {
   display: flex;
   align-items: center;
   gap: 6px;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.82rem;
-  color: var(--text-muted, #888);
+  font-size: 0.75rem;
+  color: #bc13fe;
   padding: 4px 12px;
-  border: 1px solid rgba(0, 255, 65, 0.15);
-  border-radius: 20px;
-  background: rgba(0, 255, 65, 0.05);
+  border: 1px solid rgba(188, 19, 254, 0.25);
+  border-radius: 6px;
+  background: rgba(188, 19, 254, 0.06);
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-.work-date i {
-  color: var(--matrix-green, #00ff41);
+.exp-team-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #bc13fe;
+  box-shadow: 0 0 6px rgba(188, 19, 254, 0.5);
 }
 
-.job-details ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* ── Responsibilities ── */
+.exp-details {
+  padding: 22px 28px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
 }
 
-.job-details li {
-  position: relative;
-  padding-left: 22px;
+.exp-detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  transition: transform 0.3s ease;
+}
+
+.exp-detail-item:hover {
+  transform: translateX(6px);
+}
+
+.exp-detail-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(0, 255, 65, 0.06);
+  border: 1px solid rgba(0, 255, 65, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.exp-detail-item:hover .exp-detail-icon {
+  background: rgba(0, 255, 65, 0.12);
+  border-color: rgba(0, 255, 65, 0.3);
+}
+
+.exp-detail-icon i {
+  color: var(--matrix-green, #00ff41);
+  font-size: 0.82rem;
+}
+
+.exp-detail-text {
   font-family: 'Rajdhani', sans-serif;
   font-size: 0.95rem;
   color: var(--text-secondary, #bbb);
   line-height: 1.6;
+  padding-top: 6px;
 }
 
-.job-details li::before {
-  content: '›';
-  position: absolute;
-  left: 0;
-  color: var(--matrix-green, #00ff41);
-  font-weight: 700;
-  font-size: 1.2rem;
-  line-height: 1.4;
+/* ── Tech Stack Tags ── */
+.exp-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 28px 24px;
+  border-top: 1px solid rgba(0, 255, 65, 0.06);
+  padding-top: 18px;
 }
+
+.exp-tech-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: rgba(0, 255, 65, 0.7);
+  background: rgba(0, 255, 65, 0.05);
+  border: 1px solid rgba(0, 255, 65, 0.12);
+  padding: 5px 14px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.exp-tech-tag:hover {
+  background: rgba(0, 255, 65, 0.12);
+  border-color: rgba(0, 255, 65, 0.35);
+  color: var(--matrix-green, #00ff41);
+  box-shadow: 0 0 12px rgba(0, 255, 65, 0.15);
+  transform: translateY(-2px);
+}
+
 
 /* ============================================
-   LIGHT THEME OVERRIDES FOR CERTIFICATIONS
+   LIGHT THEME — CERTIFICATIONS & EXPERIENCE
    ============================================ */
+[data-theme="light"] .cert-section-subtitle,
+[data-theme="light"] .exp-section-subtitle {
+  color: var(--text-secondary);
+}
+
 [data-theme="light"] .cert-card-inner {
-  background: var(--bg-card);
-  border-color: rgba(var(--card-accent-rgb), 0.15);
+  background: linear-gradient(170deg,
+      rgba(var(--card-accent-rgb), 0.04) 0%,
+      var(--bg-card) 30%,
+      var(--bg-card) 100%);
+  border-color: rgba(var(--card-accent-rgb), 0.12);
   box-shadow: var(--card-shadow);
 }
 
-[data-theme="light"] .cert-badge-visual {
-  background: linear-gradient(145deg,
-      rgba(var(--card-accent-rgb), 0.06) 0%,
-      rgba(var(--card-accent-rgb), 0.02) 100%);
+[data-theme="light"] .cert-card:hover .cert-card-inner {
+  box-shadow: var(--card-hover-shadow);
+  border-color: rgba(var(--card-accent-rgb), 0.3);
 }
 
-[data-theme="light"] .cert-name {
+[data-theme="light"] .cert-name,
+[data-theme="light"] .exp-company-name,
+[data-theme="light"] .exp-role-title {
   color: var(--text-primary);
 }
 
-[data-theme="light"] .cert-issuer {
+[data-theme="light"] .cert-issuer,
+[data-theme="light"] .cert-desc,
+[data-theme="light"] .exp-detail-text,
+[data-theme="light"] .exp-company-loc {
   color: var(--text-secondary);
 }
 
-[data-theme="light"] .cert-desc {
-  color: var(--text-secondary);
+[data-theme="light"] .timeline-card-inner {
+  background: linear-gradient(170deg,
+      rgba(0, 102, 255, 0.03) 0%,
+      var(--bg-card) 25%,
+      var(--bg-card) 100%);
+  border-color: rgba(0, 102, 255, 0.12);
+  box-shadow: var(--card-shadow);
 }
 
-/* ============================================
-   LIGHT THEME OVERRIDES FOR EXPERIENCE
-   ============================================ */
+[data-theme="light"] .timeline-card:hover .timeline-card-inner {
+  box-shadow: var(--card-hover-shadow);
+  border-color: rgba(0, 102, 255, 0.25);
+}
+
 [data-theme="light"] .timeline-line {
   background: linear-gradient(to bottom,
-      transparent,
-      var(--primary-color) 20%,
-      var(--primary-color) 80%,
-      transparent);
+      transparent, var(--primary-color) 15%, var(--primary-color) 85%, transparent);
   box-shadow: 0 0 10px rgba(0, 102, 255, 0.2);
 }
 
 [data-theme="light"] .timeline-dot {
   background: var(--primary-color);
   border-color: var(--bg-primary);
-  box-shadow: 0 0 10px rgba(0, 102, 255, 0.3);
+  box-shadow: 0 0 12px rgba(0, 102, 255, 0.4);
 }
 
-[data-theme="light"] .timeline-card {
-  background: var(--bg-card);
-  border-color: rgba(0, 102, 255, 0.12);
-  box-shadow: var(--card-shadow);
-}
-
-[data-theme="light"] .timeline-card:hover {
-  box-shadow: var(--card-hover-shadow);
+[data-theme="light"] .timeline-dot-ring {
   border-color: rgba(0, 102, 255, 0.25);
 }
 
-[data-theme="light"] .company-name {
+[data-theme="light"] .exp-date-badge {
+  color: var(--primary-color);
+  border-color: rgba(0, 102, 255, 0.15);
+  background: rgba(0, 102, 255, 0.04);
+}
+
+[data-theme="light"] .exp-live-dot {
+  background: var(--primary-color);
+  box-shadow: 0 0 8px rgba(0, 102, 255, 0.4);
+}
+
+[data-theme="light"] .exp-detail-icon {
+  background: rgba(0, 102, 255, 0.05);
+  border-color: rgba(0, 102, 255, 0.1);
+}
+
+[data-theme="light"] .exp-detail-icon i {
+  color: var(--primary-color);
+}
+
+[data-theme="light"] .exp-role-title i {
+  color: var(--primary-color);
+}
+
+[data-theme="light"] .exp-tech-tag {
+  color: rgba(0, 102, 255, 0.7);
+  background: rgba(0, 102, 255, 0.04);
+  border-color: rgba(0, 102, 255, 0.1);
+}
+
+[data-theme="light"] .exp-tech-tag:hover {
+  background: rgba(0, 102, 255, 0.1);
+  border-color: rgba(0, 102, 255, 0.25);
   color: var(--primary-color);
 }
 
 [data-theme="light"] .company-logo-img {
-  border-color: rgba(0, 102, 255, 0.15);
-  background: rgba(0, 102, 255, 0.04);
-  box-shadow: 0 0 8px rgba(0, 102, 255, 0.1);
+  filter: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-[data-theme="light"] .work-date {
-  border-color: rgba(0, 102, 255, 0.12);
-  background: rgba(0, 102, 255, 0.04);
+[data-theme="light"] .exp-logo-orbit circle {
+  stroke: rgba(0, 102, 255, 0.15);
 }
 
-[data-theme="light"] .work-date i {
-  color: var(--primary-color);
+[data-theme="light"] .cert-tag {
+  color: rgba(var(--card-accent-rgb), 0.7);
+  background: rgba(var(--card-accent-rgb), 0.04);
+  border-color: rgba(var(--card-accent-rgb), 0.1);
 }
 
-[data-theme="light"] .job-details li::before {
-  color: var(--primary-color);
-}
-
-[data-theme="light"] .role-title {
-  color: var(--text-primary);
-}
-
-[data-theme="light"] .job-details li {
-  color: var(--text-secondary);
-}
 
 /* ============================================
    RESPONSIVE: CERTIFICATIONS & EXPERIENCE
@@ -7516,35 +7974,52 @@ body:not([data-theme="light"])::-webkit-scrollbar-thumb:hover {
 
   .certifications {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 28px;
   }
 
-  .cert-badge-icon {
+  .cert-hex-container {
+    width: 120px;
+    height: 120px;
+  }
+
+  .cert-hex-badge {
     width: 80px;
     height: 80px;
   }
 
   .cert-logo-img {
-    width: 56px;
-    height: 56px;
+    width: 54px;
+    height: 54px;
   }
 
   .experience-timeline {
-    padding-left: 30px;
+    padding-left: 35px;
   }
 
   .timeline-dot {
-    left: -24px;
-    width: 12px;
-    height: 12px;
+    left: -30px;
+    width: 14px;
+    height: 14px;
   }
 
-  .timeline-card {
-    padding: 22px 20px;
+  .exp-company-banner {
+    flex-wrap: wrap;
+    padding: 20px;
   }
 
-  .timeline-header {
+  .exp-role-bar {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 20px;
+  }
+
+  .exp-details {
+    padding: 18px 20px;
+  }
+
+  .exp-tech-stack {
+    padding: 14px 20px 20px;
   }
 }
 
@@ -7553,7 +8028,7 @@ body:not([data-theme="light"])::-webkit-scrollbar-thumb:hover {
     grid-template-columns: 1fr;
   }
 
-  .cert-badge-visual {
+  .cert-badge-area {
     padding: 28px 16px 18px;
   }
 
@@ -7562,10 +8037,21 @@ body:not([data-theme="light"])::-webkit-scrollbar-thumb:hover {
   }
 
   .cert-name {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
   }
 
-  .role-title {
-    font-size: 1.1rem;
+  .cert-card-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cert-meta-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .exp-date-badge {
+    width: 100%;
+    justify-content: center;
   }
 }
