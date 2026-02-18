@@ -470,8 +470,49 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // ===== CERTIFICATE & PROJECT CARD CURSOR GLOW EFFECT (VIBRANT) =====
-    const interactiveCards = document.querySelectorAll('.cert-card, .project-card');
+    // ===== CERTIFICATION CARD SWIPE HANDLER =====
+    document.querySelectorAll('.cert-card').forEach(card => {
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isSwiping = false;
+
+        // Click/tap to toggle swipe
+        card.addEventListener('click', (e) => {
+            if (isSwiping) return; // Don't handle click during swipe
+            card.classList.toggle('swiped');
+        });
+
+        // Touch swipe support (mobile)
+        card.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            isSwiping = false;
+        }, { passive: true });
+
+        card.addEventListener('touchmove', (e) => {
+            const deltaX = e.touches[0].clientX - touchStartX;
+            const deltaY = e.touches[0].clientY - touchStartY;
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 15) {
+                isSwiping = true;
+            }
+        }, { passive: true });
+
+        card.addEventListener('touchend', (e) => {
+            if (!isSwiping) return;
+            const deltaX = e.changedTouches[0].clientX - touchStartX;
+            if (deltaX < -40) {
+                // Swipe left: reveal details
+                card.classList.add('swiped');
+            } else if (deltaX > 40) {
+                // Swipe right: hide details
+                card.classList.remove('swiped');
+            }
+            setTimeout(() => { isSwiping = false; }, 100);
+        }, { passive: true });
+    });
+
+    // ===== PROJECT CARD CURSOR GLOW EFFECT (VIBRANT) =====
+    const interactiveCards = document.querySelectorAll('.project-card');
 
     interactiveCards.forEach(card => {
         // Find the inner container (handles both cert-card-inner and project-card-inner)
