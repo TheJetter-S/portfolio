@@ -1536,5 +1536,86 @@ class HoudiniPaintWorkletManager {
             setTimeout(typeRole, 1500);
             console.log('[Hero] Role typing animation initialized');
         }
+
+        // ===== CUSTOM CYBERPUNK CURSOR =====
+        const customCursor = document.getElementById('customCursor');
+        // Only activate on desktop (width > 768px)
+        if (customCursor && window.innerWidth > 768) {
+            const cursorText = customCursor.querySelector('.cursor-text');
+
+            let mouseX = window.innerWidth / 2;
+            let mouseY = window.innerHeight / 2;
+            let cursorX = window.innerWidth / 2;
+            let cursorY = window.innerHeight / 2;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            // Smooth follow animation loop
+            function animateCursor() {
+                const dx = mouseX - cursorX;
+                const dy = mouseY - cursorY;
+
+                cursorX += dx * 0.15; // Smoothness factor
+                cursorY += dy * 0.15; // Smoothness factor
+
+                customCursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+
+            // Hover interactions
+            // Added input, textarea, select, label for better form handling
+            // Added .nova-avatar, .nova-btn, .nova-option for bot interaction
+            const interactiveSelectors = 'a, button, input, textarea, select, label, .project-card, .cert-card, .skill-card, .intel-tab, .nav-link, .hero-btn, .nova-avatar, .nova-btn, .nova-option';
+
+            // Use event delegation for dynamic elements (like Nova options)
+            document.addEventListener('mouseover', (e) => {
+                const target = e.target.closest(interactiveSelectors);
+                if (target) {
+                    customCursor.classList.add('cursor-hover');
+
+                    if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.classList.contains('nav-link') || target.classList.contains('nova-btn') || target.classList.contains('nova-option')) {
+                        cursorText.textContent = 'ACCESS';
+                    } else if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') {
+                        cursorText.textContent = 'INPUT';
+                    } else if (target.classList.contains('project-card')) {
+                        cursorText.textContent = 'INSPECT';
+                    } else if (target.classList.contains('cert-card')) {
+                        cursorText.textContent = 'VERIFY';
+                    } else if (target.classList.contains('skill-card')) {
+                        cursorText.textContent = 'ANALYZE';
+                    } else if (target.classList.contains('nova-avatar')) {
+                        cursorText.textContent = 'INTERACT';
+                    } else {
+                        cursorText.textContent = 'TARGET';
+                    }
+                } else {
+                    customCursor.classList.remove('cursor-hover');
+                    cursorText.textContent = '';
+                }
+            });
+
+            document.addEventListener('mousedown', () => {
+                customCursor.classList.add('cursor-click');
+            });
+
+            document.addEventListener('mouseup', () => {
+                customCursor.classList.remove('cursor-click');
+            });
+
+            // Global click ripple effect
+            document.addEventListener('mousedown', () => {
+                customCursor.classList.add('cursor-click');
+                setTimeout(() => {
+                    customCursor.classList.remove('cursor-click');
+                }, 150);
+            });
+
+            console.log('[Cursor] Custom cyberpunk cursor active');
+        }
     }
 })();

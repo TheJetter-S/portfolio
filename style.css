@@ -8930,3 +8930,178 @@ body:not([data-theme="light"])::-webkit-scrollbar-thumb:hover {
     justify-content: center;
   }
 }
+/* ============================================
+   CUSTOM CYBERPUNK CURSOR
+   ============================================ */
+@media (min-width: 769px) {
+    body {
+        cursor: none; /* Hide default cursor on desktop */
+    }
+
+    #customCursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 40px;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease-out;
+        mix-blend-mode: exclusion;
+    }
+
+    .cursor-core {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        background-color: var(--matrix-green);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 10px var(--matrix-green);
+        transition: all 0.2s ease;
+    }
+
+    .cursor-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        border: 1px solid rgba(0, 255, 65, 0.5);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.3s ease;
+    }
+
+    .cursor-crosshair {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        transform: translate(-50%, -50%) rotate(45deg);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .cursor-crosshair::before,
+    .cursor-crosshair::after {
+        content: '';
+        position: absolute;
+        background-color: var(--matrix-green);
+    }
+
+    .cursor-crosshair::before {
+        top: 0;
+        left: 50%;
+        width: 1px;
+        height: 100%;
+        transform: translateX(-50%);
+    }
+
+    .cursor-crosshair::after {
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        transform: translateY(-50%);
+    }
+
+    .cursor-text {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 10px;
+        color: var(--matrix-green);
+        white-space: nowrap;
+        opacity: 0;
+        margin-top: 5px;
+        text-shadow: 0 0 5px var(--matrix-green);
+        letter-spacing: 1px;
+    }
+
+    /* Hover State */
+    #customCursor.cursor-hover .cursor-core {
+        width: 8px;
+        height: 8px;
+        background-color: transparent;
+        border: 2px solid var(--matrix-green);
+    }
+
+    #customCursor.cursor-hover .cursor-ring {
+        width: 50px;
+        height: 50px;
+        border-color: var(--matrix-green);
+        border-width: 1px;
+        border-style: dashed;
+        animation: rotateCursor 4s linear infinite;
+    }
+
+    #customCursor.cursor-hover .cursor-crosshair {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    #customCursor.cursor-hover .cursor-text {
+        opacity: 1;
+    }
+
+    /* Active/Click State */
+    #customCursor.cursor-click .cursor-core {
+        width: 4px;
+        height: 4px;
+        background-color: #fff;
+    }
+
+    #customCursor.cursor-click .cursor-ring {
+        width: 25px;
+        height: 25px;
+        background-color: rgba(0, 255, 65, 0.2);
+    }
+
+    /* Light Theme Adjustments */
+    [data-theme='light'] #customCursor .cursor-core,
+    [data-theme='light'] #customCursor .cursor-crosshair::before,
+    [data-theme='light'] #customCursor .cursor-crosshair::after,
+    [data-theme='light'] #customCursor .cursor-text {
+        color: var(--primary-color);
+        background-color: var(--primary-color);
+        box-shadow: none;
+        text-shadow: none;
+    }
+
+    [data-theme='light'] #customCursor .cursor-ring {
+        border-color: rgba(0, 85, 170, 0.5);
+    }
+
+    [data-theme='light'] #customCursor.cursor-hover .cursor-core {
+        background-color: transparent;
+        border-color: var(--primary-color);
+    }
+
+    [data-theme='light'] #customCursor.cursor-hover .cursor-ring {
+        border-color: var(--primary-color);
+    }
+}
+
+@keyframes rotateCursor {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+
+/* Force cursor: none globally on desktop to prevent system cursor flicker */
+@media (min-width: 769px) {
+    *, *::before, *::after {
+        cursor: none !important;
+    }
+    #customCursor {
+        z-index: 2147483647 !important; /* Max Z-index */
+    }
+}
+
