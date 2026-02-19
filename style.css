@@ -3927,7 +3927,7 @@ section {
 }
 
 /* ============================================
-           CERTIFICATIONS SECTION — SWIPE REVEAL REDESIGN
+           CERTIFICATIONS SECTION — PREMIUM REDESIGN
            ============================================ */
 
 /* -- Grid -- */
@@ -3940,303 +3940,92 @@ section {
   padding: 20px;
 }
 
-/* -- Card Wrapper -- */
+/* -- Card Wrapper (Perspective Container) -- */
 .cert-card {
   --accent: var(--card-accent, var(--matrix-green));
   --accent-rgb: var(--card-accent-rgb, 0, 255, 65);
   position: relative;
   height: 280px;
+  width: 100%; /* Ensure width is set */
   border-radius: 18px;
+  perspective: 1000px; /* Essential for 3D effect */
   cursor: pointer;
   opacity: 0;
   animation: certFadeUp 0.7s cubic-bezier(.25, .8, .25, 1) forwards;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-}
-
-.cert-card:nth-child(1) {
-  animation-delay: 0.1s;
-}
-
-.cert-card:nth-child(2) {
-  animation-delay: 0.25s;
-}
-
-.cert-card:nth-child(3) {
-  animation-delay: 0.4s;
 }
 
 .cert-card:hover {
-  transform: translateY(-6px);
+  /* No transform on hover for wrapper, only inner */
 }
+
+.cert-card:nth-child(1) { animation-delay: 0.1s; }
+.cert-card:nth-child(2) { animation-delay: 0.25s; }
+.cert-card:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes certFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* -- Card Inner -- */
+/* -- Card Inner (Flipping Element) -- */
 .cert-card-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 18px;
-  overflow: hidden;
+  text-align: center;
+  transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
 }
 
-/* ============================================
-   BACK LAYER — Detailed Content (underneath)
-   ============================================ */
-.cert-card-back {
+/* HOVER FLIP ACTION */
+.cert-card:hover .cert-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* -- Common Face Styles -- */
+.cert-card-front, .cert-card-back {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  
   border-radius: 18px;
-  background: linear-gradient(165deg,
-      rgba(10, 12, 20, 0.97) 0%,
-      rgba(16, 20, 30, 0.99) 100%);
-  border: 1px solid rgba(var(--accent-rgb), 0.22);
+  overflow: hidden;
   box-shadow:
     0 4px 30px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 
-/* Scanline sweep on back */
-.cert-back-scanline {
-  position: absolute;
-  top: -100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg,
-      transparent 0%,
-      rgba(var(--accent-rgb), 0.03) 48%,
-      rgba(var(--accent-rgb), 0.08) 50%,
-      rgba(var(--accent-rgb), 0.03) 52%,
-      transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-  animation: certScanSweep 3.5s ease-in-out infinite;
-}
-
-@keyframes certScanSweep {
-  0% {
-    top: -100%;
-  }
-
-  100% {
-    top: 100%;
-  }
-}
-
-/* -- Back Content -- */
-.cert-back-content {
-  padding: 22px 20px 18px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  position: relative;
-  z-index: 2;
-  opacity: 0;
-  transform: translateX(10px);
-  transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
-}
-
-.cert-card.swiped .cert-back-content {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* -- Card Header (Title + Status) -- */
-.cert-card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.cert-name {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.35;
-  color: #fff;
-  flex: 1;
-}
-
-/* -- Status Badge -- */
-.cert-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.5rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--accent);
-  background: rgba(var(--accent-rgb), 0.08);
-  border: 1px solid rgba(var(--accent-rgb), 0.3);
-  border-radius: 20px;
-  padding: 5px 10px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.cert-status--pending {
-  color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.cert-status-pulse {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  animation: certPulse 2s ease-in-out infinite;
-  box-shadow: 0 0 6px var(--accent);
-}
-
-@keyframes certPulse {
-
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.4;
-    transform: scale(0.7);
-  }
-}
-
-/* -- Meta Row (Issuer + ID) -- */
-.cert-meta-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.cert-issuer {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.6rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 20px;
-  color: var(--accent);
-  background: rgba(var(--accent-rgb), 0.06);
-  border: 1px solid rgba(var(--accent-rgb), 0.18);
-}
-
-.cert-issuer i {
-  font-size: 0.55rem;
-}
-
-.cert-id-badge {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.55rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 6px;
-  color: var(--accent);
-  background: rgba(var(--accent-rgb), 0.06);
-  border: 1px solid rgba(var(--accent-rgb), 0.15);
-  letter-spacing: 1.5px;
-}
-
-/* -- Description -- */
-.cert-desc {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 400;
-  line-height: 1.55;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-}
-
-/* -- Skill Tags -- */
-.cert-skill-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: auto;
-}
-
-.cert-tag {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.62rem;
-  padding: 3px 9px;
-  border-radius: 4px;
-  color: var(--accent);
-  background: rgba(var(--accent-rgb), 0.06);
-  border: 1px solid rgba(var(--accent-rgb), 0.15);
-  letter-spacing: 0.5px;
-  transition: background 0.3s ease, border-color 0.3s ease;
-}
-
-.cert-tag:hover {
-  background: rgba(var(--accent-rgb), 0.14);
-  border-color: rgba(var(--accent-rgb), 0.4);
-}
-
-
-/* ============================================
-   FRONT LAYER — Compact Badge Display (slides away)
-   ============================================ */
+/* -- Front Face (Default) -- */
 .cert-card-front {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
+  background: linear-gradient(165deg,
+      rgba(12, 12, 18, 0.95) 0%,
+      rgba(18, 22, 30, 0.98) 100%);
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 24px 20px;
-  border-radius: 18px;
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+/* -- Back Face (Rotated) -- */
+.cert-card-back {
   background: linear-gradient(165deg,
-      rgba(12, 12, 18, 0.95) 0%,
-      rgba(18, 22, 30, 0.98) 100%);
-  border: 1px solid rgba(var(--accent-rgb), 0.18);
-  box-shadow:
-    0 4px 30px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  /* SWIPE TRANSITION – slides left on .swiped */
-  transition: transform 0.55s cubic-bezier(0.4, 0.0, 0.2, 1),
-    opacity 0.55s cubic-bezier(0.4, 0.0, 0.2, 1),
-    border-color 0.4s ease,
-    box-shadow 0.4s ease;
+      rgba(10, 12, 20, 0.97) 0%,
+      rgba(16, 20, 30, 0.99) 100%);
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
 }
 
-.cert-card.swiped .cert-card-front {
-  transform: translateX(-102%);
-  opacity: 0;
-}
-
-.cert-card:hover .cert-card-front {
-  border-color: rgba(var(--accent-rgb), 0.5);
-  box-shadow:
-    0 12px 50px rgba(0, 0, 0, 0.45),
-    0 0 40px rgba(var(--accent-rgb), 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-/* -- Front Glow Blob -- */
+/* -- Front: Content Styles -- */
 .cert-front-glow {
   position: absolute;
   top: 50%;
@@ -4245,7 +4034,7 @@ section {
   width: 180px;
   height: 180px;
   background: radial-gradient(circle,
-      rgba(var(--accent-rgb), 0.18) 0%,
+      rgba(var(--accent-rgb), 0.15) 0%,
       transparent 70%);
   border-radius: 50%;
   pointer-events: none;
@@ -4254,11 +4043,10 @@ section {
 }
 
 .cert-card:hover .cert-front-glow {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1.4);
+  opacity: 0.8;
+  transform: translate(-50%, -50%) scale(1.2);
 }
 
-/* -- Orbiting Ring SVG -- */
 .cert-front-orbit {
   position: absolute;
   width: 140px;
@@ -4297,22 +4085,10 @@ section {
 }
 
 @keyframes certOrbitSpin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
-.cert-card:hover .cert-orbit-svg .orbit-beam {
-  stroke-dasharray: 140 310;
-  opacity: 1;
-  filter: drop-shadow(0 0 12px rgba(var(--accent-rgb), 0.9));
-}
-
-/* -- Badge Image -- */
 .cert-front-badge {
   position: relative;
   width: 88px;
@@ -4330,33 +4106,17 @@ section {
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-.cert-card:hover .cert-front-badge {
-  transform: scale(1.06);
-  box-shadow: 0 8px 30px rgba(var(--accent-rgb), 0.25);
-}
-
 .cert-front-badge .cert-logo-img {
   width: 64px;
   height: 64px;
   object-fit: contain;
   filter: drop-shadow(0 0 8px rgba(var(--accent-rgb), 0.4));
-  transition: filter 0.4s ease;
 }
 
-.cert-card:hover .cert-front-badge .cert-logo-img {
-  filter: drop-shadow(0 0 16px rgba(var(--accent-rgb), 0.7));
-}
-
-/* Locked badge */
 .cert-front-badge--locked {
   opacity: 0.6;
   filter: grayscale(0.4);
   border-style: dashed;
-}
-
-.cert-card:hover .cert-front-badge--locked {
-  opacity: 0.8;
-  filter: grayscale(0.2);
 }
 
 .cert-lock-overlay {
@@ -4378,20 +4138,10 @@ section {
 }
 
 @keyframes lockPulse {
-
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50%      { transform: scale(1.1); opacity: 1; }
 }
 
-/* -- Front Info (Label + Year) -- */
 .cert-front-info {
   text-align: center;
   margin-top: 16px;
@@ -4406,11 +4156,6 @@ section {
   text-transform: uppercase;
   color: var(--accent);
   text-shadow: 0 0 12px rgba(var(--accent-rgb), 0.4);
-  transition: text-shadow 0.4s ease;
-}
-
-.cert-card:hover .cert-front-label {
-  text-shadow: 0 0 24px rgba(var(--accent-rgb), 0.7);
 }
 
 .cert-front-year {
@@ -4423,82 +4168,174 @@ section {
   opacity: 0.6;
 }
 
-/* -- "Swipe to reveal" hint -- */
-.cert-swipe-hint {
+/* -- Back: Content Styles -- */
+.cert-back-scanline {
   position: absolute;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(var(--accent-rgb), 0.03) 48%,
+      rgba(var(--accent-rgb), 0.08) 50%,
+      rgba(var(--accent-rgb), 0.03) 52%,
+      transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+  animation: certScanSweep 3.5s ease-in-out infinite;
+}
+
+@keyframes certScanSweep {
+  0%   { top: -100%; }
+  100% { top: 100%; }
+}
+
+.cert-back-content {
+  padding: 22px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.cert-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cert-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #fff;
+  flex: 1;
+  text-align: left;
+}
+
+.cert-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.08);
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  border-radius: 20px;
+  padding: 5px 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cert-status--pending {
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.cert-status-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: certPulse 2s ease-in-out infinite;
+  box-shadow: 0 0 6px var(--accent);
+}
+
+@keyframes certPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+.cert-meta-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  opacity: 0;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: opacity 0.3s ease;
-  z-index: 2;
-  white-space: nowrap;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-.cert-card:hover .cert-swipe-hint {
-  opacity: 0.65;
-}
-
-.swipe-arrow {
+.cert-issuer {
   display: inline-flex;
-  animation: swipeArrowBounce 1.5s ease-in-out infinite;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
   color: var(--accent);
-  font-size: 0.65rem;
+  background: rgba(var(--accent-rgb), 0.06);
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
 }
 
-@keyframes swipeArrowBounce {
-
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  50% {
-    transform: translateX(-6px);
-  }
+.cert-issuer i {
+  font-size: 0.55rem;
 }
 
-/* -- Locked card -- */
-.cert-card--locked .cert-card-front {
-  border-style: dashed;
-  border-color: rgba(var(--accent-rgb), 0.1);
+.cert-id-badge {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.06);
+  border: 1px solid rgba(var(--accent-rgb), 0.15);
+  letter-spacing: 1.5px;
 }
 
-.cert-card--locked .cert-card-back {
-  border-style: dashed;
-  border-color: rgba(var(--accent-rgb), 0.15);
-  opacity: 0.85;
+.cert-desc {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  text-align: left;
 }
 
-/* ============================================
-   LIGHT MODE — CERTIFICATIONS SWIPE
-   ============================================ */
+.cert-skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: auto;
+}
+
+.cert-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  padding: 3px 9px;
+  border-radius: 4px;
+  color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.06);
+  border: 1px solid rgba(var(--accent-rgb), 0.15);
+  letter-spacing: 0.5px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.cert-tag:hover {
+  background: rgba(var(--accent-rgb), 0.14);
+  border-color: rgba(var(--accent-rgb), 0.4);
+}
+
+/* -- Light Mode Overrides -- */
 [data-theme="light"] .cert-card-front,
-.light-theme .cert-card-front {
-  background: linear-gradient(165deg, #ffffff 0%, #f5f7ff 100%);
-  border-color: rgba(var(--accent-rgb), 0.15);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 1);
-}
-
-[data-theme="light"] .cert-card:hover .cert-card-front,
-.light-theme .cert-card:hover .cert-card-front {
-  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.1), 0 0 30px rgba(var(--accent-rgb), 0.08);
-}
-
+.light-theme .cert-card-front,
 [data-theme="light"] .cert-card-back,
 .light-theme .cert-card-back {
   background: linear-gradient(165deg, #ffffff 0%, #f5f7ff 100%);
-  border-color: rgba(var(--accent-rgb), 0.18);
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+  border-color: rgba(var(--accent-rgb), 0.15);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 [data-theme="light"] .cert-name,
@@ -4511,20 +4348,11 @@ section {
   color: #5a5a70;
 }
 
-[data-theme="light"] .cert-front-glow,
-.light-theme .cert-front-glow {
-  opacity: 0.2;
-}
-
 /* -- Responsive -- */
 @media (max-width: 1024px) {
   .certifications {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-  }
-
-  .cert-card {
-    height: 280px;
   }
 }
 
@@ -4534,27 +4362,8 @@ section {
     gap: 20px;
     padding: 16px;
   }
-
   .cert-card {
     height: 260px;
-  }
-
-  .cert-front-badge {
-    width: 72px;
-    height: 72px;
-  }
-
-  .cert-front-badge .cert-logo-img {
-    width: 52px;
-    height: 52px;
-  }
-
-  .cert-front-label {
-    font-size: 0.9rem;
-  }
-
-  .cert-name {
-    font-size: 0.85rem;
   }
 }
 
@@ -4563,14 +4372,10 @@ section {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-
-  .cert-card {
-    height: 280px;
-  }
 }
 
 /* ============================================
-           ABOUT ME SECTION - SECURITY DOSSIER DESIGN
+           ABOUT ME SECTION" - SECURITY DOSSIER DESIGN
            ============================================ */
 .about-dossier {
   max-width: 1200px;
