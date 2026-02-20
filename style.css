@@ -8930,3 +8930,368 @@ body:not([data-theme="light"])::-webkit-scrollbar-thumb:hover {
     justify-content: center;
   }
 }
+/* ============================================
+   CUSTOM CURSOR - Cyberpunk Ring + Dot
+   ============================================ */
+
+/* Hide the default cursor everywhere */
+*, *::before, *::after {
+  cursor: none !important;
+}
+
+/* Outer ring - follows with smooth lag */
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--matrix-green, #00ff41);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, border-width 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+  opacity: 0;
+  mix-blend-mode: exclusion;
+}
+
+/* Inner dot - follows instantly */
+.custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--matrix-green, #00ff41);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100000;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background-color 0.3s ease, opacity 0.3s ease, transform 0.2s ease;
+  opacity: 0;
+  box-shadow: 0 0 10px var(--matrix-green, #00ff41), 0 0 20px rgba(0, 255, 65, 0.3);
+}
+
+/* Visible state */
+.custom-cursor-ring.active,
+.custom-cursor-dot.active {
+  opacity: 1;
+}
+
+/* Hover state - over clickable elements */
+.custom-cursor-ring.hovering {
+  width: 55px;
+  height: 55px;
+  border-color: var(--cyber-blue, #00b3ff);
+  border-width: 2px;
+  background-color: rgba(0, 179, 255, 0.06);
+}
+
+.custom-cursor-dot.hovering {
+  width: 5px;
+  height: 5px;
+  background: var(--cyber-blue, #00b3ff);
+  box-shadow: 0 0 14px var(--cyber-blue, #00b3ff), 0 0 28px rgba(0, 179, 255, 0.3);
+}
+
+/* Click state */
+.custom-cursor-ring.clicking {
+  width: 32px;
+  height: 32px;
+  border-width: 3px;
+  border-color: var(--neon-purple, #bc13fe);
+}
+
+.custom-cursor-dot.clicking {
+  width: 12px;
+  height: 12px;
+  background: var(--neon-purple, #bc13fe);
+  box-shadow: 0 0 18px var(--neon-purple, #bc13fe), 0 0 36px rgba(188, 19, 254, 0.4);
+}
+
+/* Text cursor state */
+.custom-cursor-ring.text-cursor {
+  width: 4px;
+  height: 28px;
+  border-radius: 2px;
+  border-color: var(--matrix-green, #00ff41);
+}
+
+.custom-cursor-dot.text-cursor {
+  opacity: 0;
+}
+
+/* Hidden state for iframes / outside window */
+.custom-cursor-ring.hidden,
+.custom-cursor-dot.hidden {
+  opacity: 0 !important;
+}
+
+/* Light theme adjustments */
+[data-theme="light"] .custom-cursor-ring {
+  border-color: #0a0a0a;
+  mix-blend-mode: normal;
+}
+
+[data-theme="light"] .custom-cursor-dot {
+  background: #0a0a0a;
+  box-shadow: 0 0 8px rgba(10, 10, 10, 0.3);
+}
+
+[data-theme="light"] .custom-cursor-ring.hovering {
+  border-color: #0066cc;
+  background-color: rgba(0, 102, 204, 0.06);
+}
+
+[data-theme="light"] .custom-cursor-dot.hovering {
+  background: #0066cc;
+  box-shadow: 0 0 12px rgba(0, 102, 204, 0.4);
+}
+
+[data-theme="light"] .custom-cursor-ring.clicking {
+  border-color: #6200ea;
+}
+
+[data-theme="light"] .custom-cursor-dot.clicking {
+  background: #6200ea;
+  box-shadow: 0 0 16px rgba(98, 0, 234, 0.4);
+}
+
+/* Disable custom cursor on touch / mobile devices */
+@media (hover: none) and (pointer: coarse) {
+  .custom-cursor-ring,
+  .custom-cursor-dot {
+    display: none !important;
+  }
+
+  *, *::before, *::after {
+    cursor: auto !important;
+  }
+
+  a, button, [role="button"], input[type="submit"], .clickable {
+    cursor: pointer !important;
+  }
+
+  input, textarea, select {
+    cursor: text !important;
+  }
+}
+
+
+
+/* ============================================
+   3D FLIP EFFECT - CERTIFICATION CARDS
+   ============================================ */
+
+/* Container needs perspective */
+.cert-card {
+  perspective: 1200px !important;
+  height: 320px !important;
+}
+
+/* CRITICAL: override the original hover translateY — it breaks 3D perspective */
+.cert-card:hover {
+  transform: none !important;
+}
+
+/* Inner card is the rotating element */
+.cert-card-inner {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+  transform-style: preserve-3d !important;
+  /* CRITICAL: must NOT be overflow:hidden — it clips the 3D rotated faces */
+  overflow: visible !important;
+  border-radius: 18px;
+}
+
+/* Flip the inner on hover */
+.cert-card:hover .cert-card-inner {
+  transform: rotateY(180deg) !important;
+}
+
+/* Both faces share common properties */
+.cert-card-front,
+.cert-card-back {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 18px !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+/* Front face (default, facing viewer) */
+.cert-card-front {
+  z-index: 2 !important;
+  transform: rotateY(0deg) !important;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+/* Back face (initially hidden, rotated 180deg) */
+.cert-card-back {
+  transform: rotateY(180deg) !important;
+  z-index: 1 !important;
+}
+
+/* Back content always visible on its face */
+.cert-card-back .cert-back-content {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
+/* Cancel any old .swiped class transforms */
+.cert-card.swiped .cert-card-front {
+  transform: rotateY(0deg) !important;
+  opacity: 1 !important;
+}
+
+/* Glow on back face when revealed */
+.cert-card:hover .cert-card-back {
+  box-shadow:
+    0 12px 50px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(var(--accent-rgb), 0.12),
+    inset 0 0 80px rgba(var(--accent-rgb), 0.03) !important;
+}
+
+/* Pulsing accent border on back when flipped */
+.cert-card:hover .cert-card-back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  border: 1px solid rgba(var(--accent-rgb), 0.45);
+  pointer-events: none;
+  animation: certFlipGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes certFlipGlow {
+  0% {
+    box-shadow: inset 0 0 15px rgba(var(--accent-rgb), 0.05);
+    border-color: rgba(var(--accent-rgb), 0.3);
+  }
+  100% {
+    box-shadow: inset 0 0 30px rgba(var(--accent-rgb), 0.1);
+    border-color: rgba(var(--accent-rgb), 0.55);
+  }
+}
+
+/* Scanline only sweeps on hover */
+.cert-back-scanline {
+  animation: none !important;
+  top: -100% !important;
+}
+
+.cert-card:hover .cert-back-scanline {
+  animation: certScanSweep 2.5s ease-in-out 0.3s infinite !important;
+}
+
+/* Corner accent - top-left */
+.cert-card-back::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 24px;
+  height: 24px;
+  border-top: 2px solid rgba(var(--accent-rgb), 0.5);
+  border-left: 2px solid rgba(var(--accent-rgb), 0.5);
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease 0.4s;
+}
+
+.cert-card:hover .cert-card-back::before {
+  opacity: 1;
+}
+
+/* Corner accent - bottom-right */
+.cert-back-content::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-bottom: 2px solid rgba(var(--accent-rgb), 0.5);
+  border-right: 2px solid rgba(var(--accent-rgb), 0.5);
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease 0.5s;
+}
+
+.cert-card:hover .cert-back-content::after {
+  opacity: 1;
+}
+
+/* Staggered tag reveal */
+.cert-card:hover .cert-tag {
+  animation: certTagFlicker 0.08s ease forwards;
+  animation-delay: calc(var(--tag-i, 0) * 0.1s + 0.4s);
+  opacity: 0;
+}
+
+@keyframes certTagFlicker {
+  0% { opacity: 0; transform: translateY(5px); }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.cert-card:hover .cert-skill-tags .cert-tag:nth-child(1) { --tag-i: 0; }
+.cert-card:hover .cert-skill-tags .cert-tag:nth-child(2) { --tag-i: 1; }
+.cert-card:hover .cert-skill-tags .cert-tag:nth-child(3) { --tag-i: 2; }
+.cert-card:hover .cert-skill-tags .cert-tag:nth-child(4) { --tag-i: 3; }
+.cert-card:hover .cert-skill-tags .cert-tag:nth-child(5) { --tag-i: 4; }
+
+/* Update hint text */
+.cert-swipe-hint span:last-child {
+  font-size: 0 !important;
+}
+
+.cert-swipe-hint span:last-child::after {
+  content: 'Hover to flip';
+  font-size: 0.6rem;
+}
+
+.cert-swipe-hint .swipe-arrow i::before {
+  content: '\f2f1' !important;
+}
+
+/* Light theme adjustments for back face */
+[data-theme="light"] .cert-card-back {
+  background: linear-gradient(165deg,
+      rgba(245, 247, 250, 0.98) 0%,
+      rgba(235, 239, 245, 0.99) 100%) !important;
+}
+
+/* Touch/mobile: tap to flip */
+@media (hover: none) and (pointer: coarse) {
+  .cert-card:hover .cert-card-inner {
+    transform: rotateY(0deg) !important;
+  }
+
+  .cert-card.flipped .cert-card-inner {
+    transform: rotateY(180deg) !important;
+  }
+
+  .cert-card.flipped .cert-card-back::before {
+    opacity: 1;
+  }
+
+  .cert-card.flipped .cert-back-content::after {
+    opacity: 1;
+  }
+
+  .cert-card.flipped .cert-back-scanline {
+    animation: certScanSweep 2.5s ease-in-out 0.3s infinite !important;
+  }
+
+  .cert-swipe-hint span:last-child::after {
+    content: 'Tap to flip';
+  }
+}

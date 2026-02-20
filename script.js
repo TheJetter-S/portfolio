@@ -343,6 +343,117 @@ if (contactForm) {
 }
 
 
+// ===== CUSTOM CURSOR SYSTEM =====
+(function () {
+    const ring = document.getElementById('cursorRing');
+    const dot = document.getElementById('cursorDot');
+
+    if (!ring || !dot) return;
+
+    // Don't init on touch devices
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    if (isTouchDevice) return;
+
+    let mouseX = -100, mouseY = -100;
+    let ringX = -100, ringY = -100;
+    const ringSpeed = 0.15; // Lag factor for the outer ring (lower = smoother lag)
+
+    // Clickable selectors
+    const hoverSelectors = 'a, button, [role="button"], input[type="submit"], input[type="button"], .clickable, .nav-link, .btn, .social-link, .project-card, .cert-card, .skill-category, .theme-toggle, label[for], select, [onclick], .card, .flip-card';
+    const textSelectors = 'input[type="text"], input[type="email"], input[type="password"], input[type="search"], input[type="url"], input[type="tel"], input[type="number"], textarea, [contenteditable="true"]';
+
+    function animate() {
+        // Smooth lerp for the ring
+        ringX += (mouseX - ringX) * ringSpeed;
+        ringY += (mouseY - ringY) * ringSpeed;
+
+        ring.style.left = ringX + 'px';
+        ring.style.top = ringY + 'px';
+
+        // Dot follows instantly
+        dot.style.left = mouseX + 'px';
+        dot.style.top = mouseY + 'px';
+
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Mouse move
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        if (!ring.classList.contains('active')) {
+            ring.classList.add('active');
+            dot.classList.add('active');
+        }
+    });
+
+    // Mouse leave/enter window
+    document.addEventListener('mouseleave', () => {
+        ring.classList.add('hidden');
+        dot.classList.add('hidden');
+    });
+    document.addEventListener('mouseenter', () => {
+        ring.classList.remove('hidden');
+        dot.classList.remove('hidden');
+    });
+
+    // Click effects
+    document.addEventListener('mousedown', () => {
+        ring.classList.add('clicking');
+        dot.classList.add('clicking');
+    });
+    document.addEventListener('mouseup', () => {
+        ring.classList.remove('clicking');
+        dot.classList.remove('clicking');
+    });
+
+    // Hover detection via event delegation
+    document.addEventListener('mouseover', (e) => {
+        const target = e.target;
+        if (target.closest(hoverSelectors)) {
+            ring.classList.add('hovering');
+            dot.classList.add('hovering');
+        }
+        if (target.closest(textSelectors)) {
+            ring.classList.add('text-cursor');
+            dot.classList.add('text-cursor');
+        }
+    });
+    document.addEventListener('mouseout', (e) => {
+        const target = e.target;
+        if (target.closest(hoverSelectors)) {
+            ring.classList.remove('hovering');
+            dot.classList.remove('hovering');
+        }
+        if (target.closest(textSelectors)) {
+            ring.classList.remove('text-cursor');
+            dot.classList.remove('text-cursor');
+        }
+    });
+})();
+
+// ===== CERT CARD TAP-TO-FLIP (Mobile) =====
+(function () {
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    if (!isTouchDevice) return;
+
+    document.querySelectorAll('.cert-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            // Don't flip if clicking a link inside the card
+            if (e.target.closest('a')) return;
+
+            // Close any other open cards
+            document.querySelectorAll('.cert-card.flipped').forEach(c => {
+                if (c !== card) c.classList.remove('flipped');
+            });
+
+            card.classList.toggle('flipped');
+        });
+    });
+})();
+
 // Initialize effects
 document.addEventListener('DOMContentLoaded', () => {
     // ===== MOBILE MENU FUNCTIONALITY =====
